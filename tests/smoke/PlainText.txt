@@ -14,11 +14,11 @@ PUT http://localhost:55555/api/actions/1
     "DueDate": "2018-12-16T12:00:00+01:00"
 }
 
-DELETE http://localhost:55555/api/actions/1
-
 PUT http://localhost:55555/api/actions/1/move-to/1
 
 PUT http://localhost:55555/api/actions/1/assign-to/1
+
+DELETE http://localhost:55555/api/actions/1
 
 
 Lists
@@ -36,9 +36,9 @@ PUT http://localhost:55555/api/lists/1
     "Name": "Inbox"
 }
 
-DELETE http://localhost:55555/api/lists/1
-
 GET http://localhost:55555/api/lists/1/actions
+
+DELETE http://localhost:55555/api/lists/1
 
 
 Projects
@@ -56,6 +56,6 @@ PUT http://localhost:55555/api/projects/1
     "Name": "Prepare High Performance ASP.NET advanced workshop"
 }
 
-DELETE http://localhost:55555/api/projects/1
-
 GET http://localhost:55555/api/projects/1/actions
+
+DELETE http://localhost:55555/api/projects/1
