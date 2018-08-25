@@ -91,5 +91,24 @@ namespace GettingThingsDone.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id}/assign-to/{projectId}")]
+        public IActionResult AssignToProject(int id, int projectId)
+        {
+            var action = DbContext.Actions.Find(id);
+            if (action == null)
+                return NotFound();
+
+            var project = DbContext.Projects.Find(projectId);
+            if (project == null)
+                return NotFound();
+
+            action.Project = project;
+
+            DbContext.Actions.Update(action);
+            DbContext.SaveChanges();
+
+            return NoContent();
+        }
     }
 }

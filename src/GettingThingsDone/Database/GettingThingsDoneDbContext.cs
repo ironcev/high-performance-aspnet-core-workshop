@@ -8,6 +8,7 @@ namespace GettingThingsDone.Database
     {
         public DbSet<Action> Actions { get; set; }
         public DbSet<ActionList> Lists { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         public GettingThingsDoneDbContext(DbContextOptions<GettingThingsDoneDbContext> options)
             :base(options)
@@ -19,6 +20,10 @@ namespace GettingThingsDone.Database
             modelBuilder.Entity<ActionList>()
                 .HasMany(x => x.Actions)
                 .WithOne(x => x.List);
+
+            modelBuilder.Entity<Project>()
+                .HasMany(x => x.Actions)
+                .WithOne(x => x.Project);
         }
     }
 }

@@ -37,5 +37,10 @@ namespace GettingThingsDone.Model
         /// The list to which this action belongs or null if it doesn't belong to any list.
         /// </summary>
         public ActionList List { get; set; }
+
+        /// <summary>
+        /// The project to which this action belongs or null if it doesn't belong to any project.
+        /// </summary>
+        public Project Project { get; set; }
     }
 }

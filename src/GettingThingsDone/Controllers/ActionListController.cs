@@ -78,24 +78,8 @@ namespace GettingThingsDone.Controllers
             var list = DbContext.Lists.Include(x => x.Actions).FirstOrDefault(l => l.Id == id);
             if (list == null)
                 return NotFound();
-            var actionsToReturn = RemoveListFromAction(list.Actions.ToList());
+            var actionsToReturn = RemoveListAndProjectFromActions(list.Actions.ToList());
             return new ActionResult<IEnumerable<Action>>(actionsToReturn);
-
-            // We have to remove the list object from the action object
-            // otherwise the JSON serializer is not able to properly
-            // serialize the result because of circular relationships.
-            // This is most likely not the best way to solve this issue
-            // but at this point in the workshop we simply do no know any
-            // better way :-(
-            // Stay tuned and watch this workaround disappear later.
-            IEnumerable<Action> RemoveListFromAction(List<Action> actions)
-            {
-                foreach (var action in actions)
-                {
-                    action.List = null;
-                    yield return action;
-                }
-            }
         }
     }
 }
