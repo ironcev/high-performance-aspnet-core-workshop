@@ -15,3 +15,47 @@ PUT http://localhost:55555/api/actions/1
 }
 
 DELETE http://localhost:55555/api/actions/1
+
+PUT http://localhost:55555/api/actions/1/move-to/1
+
+PUT http://localhost:55555/api/actions/1/assign-to/1
+
+
+Lists
+=====
+
+GET http://localhost:55555/api/lists
+
+POST http://localhost:55555/api/lists
+{
+    "Name": "In"
+}
+
+PUT http://localhost:55555/api/lists/1
+{
+    "Name": "Inbox"
+}
+
+DELETE http://localhost:55555/api/lists/1
+
+GET http://localhost:55555/api/lists/1/actions
+
+
+Projects
+========
+
+GET http://localhost:55555/api/projects
+
+POST http://localhost:55555/api/projects
+{
+    "Name": "Prepare High Performance ASP.NET workshop"
+}
+
+PUT http://localhost:55555/api/projects/1
+{
+    "Name": "Prepare High Performance ASP.NET advanced workshop"
+}
+
+DELETE http://localhost:55555/api/projects/1
+
+GET http://localhost:55555/api/projects/1/actions
