@@ -11,7 +11,7 @@ namespace GettingThingsDone.Controllers
     {
         private static class Routes
         {
-            public const string GetAction = nameof(GetAction);
+            public const string GetActionById = nameof(GetActionById);
         }
 
         public ActionController(GettingThingsDoneDbContext dbContext) : base(dbContext) { }
@@ -22,7 +22,7 @@ namespace GettingThingsDone.Controllers
             return DbContext.Actions;
         }
 
-        [HttpGet("{id}", Name = Routes.GetAction)]
+        [HttpGet("{id}", Name = Routes.GetActionById)]
         public ActionResult<Action> GetById(int id)
         {
             var action = DbContext.Actions.Find(id);
@@ -37,7 +37,7 @@ namespace GettingThingsDone.Controllers
             DbContext.Actions.Add(value);
             DbContext.SaveChanges();
 
-            return CreatedAtRoute(Routes.GetAction, new { id = value.Id }, value);
+            return CreatedAtRoute(Routes.GetActionById, new { id = value.Id }, value);
         }
 
         [HttpPut("{id}")]
@@ -61,13 +61,32 @@ namespace GettingThingsDone.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var todo = DbContext.Actions.Find(id);
-            if (todo == null)
+            var action = DbContext.Actions.Find(id);
+            if (action == null)
             {
                 return NotFound();
             }
 
-            DbContext.Actions.Remove(todo);
+            DbContext.Actions.Remove(action);
+            DbContext.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}/move-to/{listId}")]
+        public IActionResult MoveToList(int id, int listId)
+        {
+            var action = DbContext.Actions.Find(id);
+            if (action == null)
+                return NotFound();
+
+            var list = DbContext.Lists.Find(listId);
+            if (list == null)
+                return NotFound();
+
+            action.List = list;
+
+            DbContext.Actions.Update(action);
             DbContext.SaveChanges();
 
             return NoContent();

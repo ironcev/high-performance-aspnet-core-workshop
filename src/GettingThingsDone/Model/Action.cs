@@ -32,5 +32,10 @@ namespace GettingThingsDone.Model
         /// True if the action is done. A done action cannot be changed.
         /// </summary>
         public bool IsDone => DoneAt != null;
+
+        /// <summary>
+        /// The list to which this action belongs or null if it doesn't belong to any list.
+        /// </summary>
+        public ActionList List { get; set; }
     }
 }
