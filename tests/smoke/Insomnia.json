@@ -1,0 +1,172 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2018-08-25T17:38:09.526Z",
+	"__export_source": "insomnia.desktop.app:v5.16.6",
+	"resources": [
+		{
+			"_id": "wrk_9cfba925c7dd488082f501ae049fc4a6",
+			"created": 1527571155775,
+			"description": "",
+			"modified": 1527571155775,
+			"name": "Insomnia",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_dde55b5e03d14142b8c71103fb940d9c",
+			"color": null,
+			"created": 1527571155815,
+			"data": {},
+			"isPrivate": false,
+			"modified": 1527571155815,
+			"name": "New Environment",
+			"parentId": "wrk_9cfba925c7dd488082f501ae049fc4a6",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_ad328fd939b341beb569f115ef4c5f02",
+			"cookies": [],
+			"created": 1527571155964,
+			"modified": 1527571155964,
+			"name": "Default Jar",
+			"parentId": "wrk_9cfba925c7dd488082f501ae049fc4a6",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_0851225d29904130adb40f22bd49c8db",
+			"created": 1535217036540,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1535217036540,
+			"modified": 1535217036540,
+			"name": "Actions",
+			"parentId": "wrk_9cfba925c7dd488082f501ae049fc4a6",
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_422c7ee92e9443b39171e70da3bc4bc1",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": ""
+			},
+			"created": 1535216364067,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_0859c51fa05149949dcd94868527163a",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535216840184,
+			"method": "GET",
+			"modified": 1535217090804,
+			"name": "Get all Actions",
+			"parameters": [],
+			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:55555/api/actions",
+			"_type": "request"
+		},
+		{
+			"_id": "req_c8855f2baebf4d35b54312ae9c8a996a",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"Title\": \"Prepare workshop example\"\n}"
+			},
+			"created": 1535216643928,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_40df0acbeb6e42b0a52cba2c0f09dfb8",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535216840234,
+			"method": "POST",
+			"modified": 1535217054846,
+			"name": "Create new Action",
+			"parameters": [],
+			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:55555/api/actions",
+			"_type": "request"
+		},
+		{
+			"_id": "req_97277663a24445088fa7da6bf36025bf",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"Title\": \"Prepare workshop example\",\n\t\t\"DueDate\": \"2018-12-16T12:00:00+01:00\"\n}"
+			},
+			"created": 1535217394276,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_40df0acbeb6e42b0a52cba2c0f09dfb8",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535216840209,
+			"method": "PUT",
+			"modified": 1535218058736,
+			"name": "Update existing Action",
+			"parameters": [],
+			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:55555/api/actions/1",
+			"_type": "request"
+		},
+		{
+			"_id": "req_a339c38b662644579633371b42b8dca4",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": ""
+			},
+			"created": 1535218161332,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_40df0acbeb6e42b0a52cba2c0f09dfb8",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535216840196.5,
+			"method": "DELETE",
+			"modified": 1535218259611,
+			"name": "Delete existing Action",
+			"parameters": [],
+			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:55555/api/actions/1",
+			"_type": "request"
+		}
+	]
+}
