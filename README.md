@@ -1,4 +1,4 @@
-# High Performance ASP.NET Workshop
+# High Performance ASP.NET Core Workshop
 
 This repository contains a sample Web API application used in the [High-Performance ASP.NET Core Workshop](https://github.com/ironcev/public-talks/tree/master/HighPerformanceAspDotNetCore).
 
