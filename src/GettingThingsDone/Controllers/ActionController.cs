@@ -1,59 +1,52 @@
 ﻿using System.Collections.Generic;
-using GettingThingsDone.Database;
+using GettingThingsDone.Infrastructure.Database;
 using Action = GettingThingsDone.Contract.Model.Action;
 using Microsoft.AspNetCore.Mvc;
+using GettingThingsDone.Contract.Interface;
 
 namespace GettingThingsDone.Controllers
 {
     [Route("api/actions")]
     [ApiController]
-    public class ActionController : BaseController
+    public class ActionController: Controller 
     {
         private static class Routes
         {
             public const string GetActionById = nameof(GetActionById);
         }
 
-        public ActionController(GettingThingsDoneDbContext dbContext) : base(dbContext) { }
+        private readonly IActionService _actionService;
+        private GettingThingsDoneDbContext _dbContext;
+
+        public ActionController(GettingThingsDoneDbContext dbContext, IActionService actionService)  {
+            _dbContext = dbContext;
+            _actionService = actionService;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<Action>> GetAll()
         {
-            return DbContext.Actions;
+            return _actionService.GetTop(10);
         }
 
         [HttpGet("{id}", Name = Routes.GetActionById)]
         public ActionResult<Action> GetById(int id)
         {
-            var action = DbContext.Actions.Find(id);
-            if (action == null)
-                return NotFound();
-            return action;
+            return _actionService.GetAction(id);
+
         }
 
         [HttpPost]
         public IActionResult Create([FromBody] Action value)
         {
-            DbContext.Actions.Add(value);
-            DbContext.SaveChanges();
-
-            return CreatedAtRoute(Routes.GetActionById, new { id = value.Id }, value);
+            var action = _actionService.CreateOrUpdate(null, value);
+            return CreatedAtRoute(Routes.GetActionById, new { id = action.Id }, action);
         }
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] Action value)
         {
-            var action = DbContext.Actions.Find(id);
-            if (action == null)
-                return NotFound();
-
-            action.Title = value.Title;
-            action.DueDate = value.DueDate;
-            action.DoOn = value.DoOn;
-            action.DoneAt = value.DoneAt;
-
-            DbContext.Actions.Update(action);
-            DbContext.SaveChanges();
+            _actionService.CreateOrUpdate(id, value);
 
             return NoContent();
         }
@@ -61,14 +54,9 @@ namespace GettingThingsDone.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var action = DbContext.Actions.Find(id);
-            if (action == null)
-            {
-                return NotFound();
-            }
 
-            DbContext.Actions.Remove(action);
-            DbContext.SaveChanges();
+            bool isDeleted = _actionService.Delete(id);
+            if (!isDeleted) return NotFound();
 
             return NoContent();
         }
@@ -76,38 +64,14 @@ namespace GettingThingsDone.Controllers
         [HttpPut("{id}/move-to/{listId}")]
         public IActionResult MoveToList(int id, int listId)
         {
-            var action = DbContext.Actions.Find(id);
-            if (action == null)
-                return NotFound();
-
-            var list = DbContext.Lists.Find(listId);
-            if (list == null)
-                return NotFound();
-
-            action.List = list;
-
-            DbContext.Actions.Update(action);
-            DbContext.SaveChanges();
-
+            _actionService.MoveToList(id, listId);
             return NoContent();
         }
 
         [HttpPut("{id}/assign-to/{projectId}")]
         public IActionResult AssignToProject(int id, int projectId)
         {
-            var action = DbContext.Actions.Find(id);
-            if (action == null)
-                return NotFound();
-
-            var project = DbContext.Projects.Find(projectId);
-            if (project == null)
-                return NotFound();
-
-            action.Project = project;
-
-            DbContext.Actions.Update(action);
-            DbContext.SaveChanges();
-
+            _actionService.AssignToProject(id, projectId);
             return NoContent();
         }
     }

@@ -2,15 +2,15 @@
 using Action = GettingThingsDone.Contract.Model.Action;
 using Microsoft.EntityFrameworkCore;
 
-namespace GettingThingsDone.Database
+namespace GettingThingsDone.Infrastructurebase
 {
-    public class GettingThingsDoneDbContext : DbContext
+    public class GettingThingsDoneDbContextOLD : DbContext
     {
         public DbSet<Action> Actions { get; set; }
         public DbSet<ActionList> Lists { get; set; }
         public DbSet<Project> Projects { get; set; }
 
-        public GettingThingsDoneDbContext(DbContextOptions<GettingThingsDoneDbContext> options)
+        public GettingThingsDoneDbContextOLD(DbContextOptions<GettingThingsDoneDbContextOLD> options)
             :base(options)
         {            
         }

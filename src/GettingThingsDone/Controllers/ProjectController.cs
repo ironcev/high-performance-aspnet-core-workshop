@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GettingThingsDone.Database;
+using GettingThingsDone.Infrastructurebase;
 using GettingThingsDone.Contract.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using GettingThingsDone.Infrastructure.Database;
 
 namespace GettingThingsDone.Controllers
 {

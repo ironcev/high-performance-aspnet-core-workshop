@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using GettingThingsDone.Database;
+using GettingThingsDone.Infrastructurebase;
 using GettingThingsDone.Contract.Model;
 using Microsoft.AspNetCore.Mvc;
+using GettingThingsDone.Infrastructure.Database;
 
 namespace GettingThingsDone.Controllers
 {
