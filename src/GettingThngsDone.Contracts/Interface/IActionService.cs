@@ -8,9 +8,9 @@ namespace GettingThingsDone.Contract.Interface
 {
     public interface IActionService
     {
-        GettingThingsDone.Contract.Model.Action GetAction(int id);
-        List<GettingThingsDone.Contract.Model.Action> GetTop(int count);
-        Contract.Model.Action CreateOrUpdate(int? id, GettingThingsDone.Contract.Model.Action action);
+        ActionDTO GetAction(int id);
+        List<ActionDTO> GetTop(int count);
+        ActionDTO CreateOrUpdate(int? id, ActionDTO actionDto);
         DataActionResultDTO Delete(int id);
         DataActionResultDTO MoveToList(int id, int listId);
         DataActionResultDTO AssignToProject(int id, int projectId);

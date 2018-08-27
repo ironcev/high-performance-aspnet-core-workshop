@@ -3,6 +3,7 @@ using GettingThingsDone.Infrastructure.Database;
 using Action = GettingThingsDone.Contract.Model.Action;
 using Microsoft.AspNetCore.Mvc;
 using GettingThingsDone.Contract.Interface;
+using GettingThingsDone.Contract.DTO;
 
 namespace GettingThingsDone.Controllers
 {
@@ -24,27 +25,27 @@ namespace GettingThingsDone.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Action>> GetAll()
+        public ActionResult<IEnumerable<ActionDTO>> GetAll()
         {
-            return _actionService.GetTop(10);
+            return Ok(_actionService.GetTop(10));
         }
 
         [HttpGet("{id}", Name = Routes.GetActionById)]
-        public ActionResult<Action> GetById(int id)
+        public ActionResult<ActionDTO> GetById(int id)
         {
-            return _actionService.GetAction(id);
+            return Ok(_actionService.GetAction(id));
 
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Action value)
+        public IActionResult Create([FromBody] ActionDTO value)
         {
             var action = _actionService.CreateOrUpdate(null, value);
             return CreatedAtRoute(Routes.GetActionById, new { id = action.Id }, action);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] Action value)
+        public IActionResult Update(int id, [FromBody] ActionDTO value)
         {
             _actionService.CreateOrUpdate(id, value);
 

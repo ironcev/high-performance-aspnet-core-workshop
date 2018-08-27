@@ -1,8 +1,10 @@
 ﻿using GettingThingsDone.Contract.DTO;
 using GettingThingsDone.Contract.Interface;
+using GettingThingsDone.ApplicationCore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+
 
 namespace GettingThingsDone.ApplicationCore.Services
 {
@@ -17,14 +19,19 @@ namespace GettingThingsDone.ApplicationCore.Services
             _actionRepository = actionRepository;
         }
 
-        public GettingThingsDone.Contract.Model.Action GetAction(int id)
+        public ActionDTO GetAction(int id)
         {
             var actionItem = _actionRepository.GetById(id);
-            return actionItem;
+            ActionDTO actionDto = actionItem.TranslateTo<ActionDTO>();
+            //additional metadata exp
+            actionDto.UserId = 44;
+
+            return actionDto;
         }
 
-        public Contract.Model.Action CreateOrUpdate(int? id, Contract.Model.Action action)
+        public ActionDTO CreateOrUpdate(int? id, ActionDTO actionDto)
         {
+            Contract.Model.Action action = actionDto.TranslateTo<Contract.Model.Action>();
             try
             {
                 if (id.HasValue)
@@ -35,17 +42,26 @@ namespace GettingThingsDone.ApplicationCore.Services
                 else
                 {
                     _actionRepository.Add(action);
+                    actionDto.Id = action.Id;
                 }
             } catch
             {
 
             }
-            return action;
+            return actionDto;
         }
 
-        public List<Contract.Model.Action> GetTop(int count)
+        public List<ActionDTO> GetTop(int count)
         {
-            return _actionRepository.GetTop(count);
+            var actions = _actionRepository.GetTop(count);
+
+            List<ActionDTO> actionDtos = new List<ActionDTO>();
+            foreach (var item in actions)
+            {
+                actionDtos.Add(item.TranslateTo<ActionDTO>());
+            }
+
+            return actionDtos;
             
         }
 
