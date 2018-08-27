@@ -20,4 +20,8 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GettingThngsDone.Contracts\GettingThingsDone.Contract.csproj" />
+  </ItemGroup>
+
 </Project>

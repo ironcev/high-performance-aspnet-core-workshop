@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace GettingThingsDone.Model
+namespace GettingThingsDone.Contract.Model
 {
     /// <summary>
     /// Represents a GTD project.

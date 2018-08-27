@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingThingsDone", "GettingThingsDone\GettingThingsDone.csproj", "{93D7B08C-8AE4-48AA-B875-806718297C86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingThingsDone", "GettingThingsDone\GettingThingsDone.csproj", "{93D7B08C-8AE4-48AA-B875-806718297C86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingThingsDone.Contract", "GettingThngsDone.Contracts\GettingThingsDone.Contract.csproj", "{18C6629F-3DEC-45A0-A14F-C3461F16C2FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{93D7B08C-8AE4-48AA-B875-806718297C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93D7B08C-8AE4-48AA-B875-806718297C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93D7B08C-8AE4-48AA-B875-806718297C86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18C6629F-3DEC-45A0-A14F-C3461F16C2FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18C6629F-3DEC-45A0-A14F-C3461F16C2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18C6629F-3DEC-45A0-A14F-C3461F16C2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18C6629F-3DEC-45A0-A14F-C3461F16C2FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

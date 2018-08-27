@@ -1,4 +1,4 @@
-﻿namespace GettingThingsDone.Model
+﻿namespace GettingThingsDone.Contract.Model
 {
     public abstract class Entity
     {

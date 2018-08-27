@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GettingThingsDone.Model
+namespace GettingThingsDone.Contract.Model
 {
     /// <summary>
     /// Represents a GTD action.

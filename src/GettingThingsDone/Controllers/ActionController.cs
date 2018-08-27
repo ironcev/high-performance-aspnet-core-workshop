@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using GettingThingsDone.Database;
-using Action = GettingThingsDone.Model.Action;
+using Action = GettingThingsDone.Contract.Model.Action;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GettingThingsDone.Controllers

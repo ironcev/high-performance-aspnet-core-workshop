@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GettingThingsDone.Database;
-using GettingThingsDone.Model;
+using GettingThingsDone.Contract.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,5 +1,5 @@
-﻿using GettingThingsDone.Model;
-using Action = GettingThingsDone.Model.Action;
+﻿using GettingThingsDone.Contract.Model;
+using Action = GettingThingsDone.Contract.Model.Action;
 using Microsoft.EntityFrameworkCore;
 
 namespace GettingThingsDone.Database
