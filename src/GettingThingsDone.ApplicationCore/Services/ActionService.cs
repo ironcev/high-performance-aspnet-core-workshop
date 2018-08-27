@@ -1,4 +1,5 @@
-﻿using GettingThingsDone.Contract.Interface;
+﻿using GettingThingsDone.Contract.DTO;
+using GettingThingsDone.Contract.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -48,24 +49,26 @@ namespace GettingThingsDone.ApplicationCore.Services
             
         }
 
-        public bool Delete(int id)
+        public DataActionResultDTO Delete(int id)
         {
-            bool IsDeleted = false;
+            DataActionResultDTO result = new DataActionResultDTO();
+            result.IsSaved = false;
             try
             {
                 var action = _actionRepository.GetById(id);
                 _actionRepository.Delete(action);
+                result.IsSaved = true;
             } catch { }
 
-            return IsDeleted;
+            return result;
         }
 
-        public bool MoveToList(int id, int listId)
+        public DataActionResultDTO MoveToList(int id, int listId)
         {
             return _actionRepository.MoveToList(id, listId);
         }
 
-        public bool AssignToProject(int id, int projectId)
+        public DataActionResultDTO AssignToProject(int id, int projectId)
         {
             return _actionRepository.AssignToProject(id, projectId);
         }

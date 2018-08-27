@@ -55,8 +55,8 @@ namespace GettingThingsDone.Controllers
         public IActionResult Delete(int id)
         {
 
-            bool isDeleted = _actionService.Delete(id);
-            if (!isDeleted) return NotFound();
+            var result = _actionService.Delete(id);
+            if (!result.IsSaved) return NotFound();
 
             return NoContent();
         }

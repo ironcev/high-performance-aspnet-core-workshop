@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GettingThingsDone.Contract.DTO;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,8 +11,8 @@ namespace GettingThingsDone.Contract.Interface
 
         List<GettingThingsDone.Contract.Model.Action> GetTop(int count);
 
-        bool MoveToList(int id, int listId);
+        DataActionResultDTO MoveToList(int id, int listId);
 
-        bool AssignToProject(int id, int projectId);
+        DataActionResultDTO AssignToProject(int id, int projectId);
     }
 }

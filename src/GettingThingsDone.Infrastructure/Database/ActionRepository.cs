@@ -1,4 +1,5 @@
-﻿using GettingThingsDone.Contract.Interface;
+﻿using GettingThingsDone.Contract.DTO;
+using GettingThingsDone.Contract.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,40 +29,60 @@ namespace GettingThingsDone.Infrastructure.Database
                 .ToList();
         }
 
-        public bool MoveToList(int id, int listId)
+        public DataActionResultDTO MoveToList(int id, int listId)
         {
+            DataActionResultDTO result = new DataActionResultDTO();
+            result.IsSaved = false;
             var action = _dbContext.Actions.Find(id);
             if (action == null)
-                return false;
+            {
+                result.Message = "Action not found!";
+                return result;
+            }
+                
 
             var list = _dbContext.Lists.Find(listId);
             if (list == null)
-                return false;
+            {
+                result.Message = "List not found!";
+                return result;
+            }
 
             action.List = list;
 
             _dbContext.Actions.Update(action);
             _dbContext.SaveChanges();
 
-            return true;
+            result.IsSaved = true;
+
+            return result;
         }
 
-        public bool AssignToProject(int id, int projectId)
+        public DataActionResultDTO AssignToProject(int id, int projectId)
         {
+            DataActionResultDTO result = new DataActionResultDTO();
             var action = _dbContext.Actions.Find(id);
             if (action == null)
-                return false;
+            {
+                result.Message = "Action not found!";
+                return result;
+            }
 
             var project = _dbContext.Projects.Find(projectId);
             if (project == null)
-                return false;
+            {
+                result.Message = "Project not found!";
+                return result;
+            }
 
             action.Project = project;
 
             _dbContext.Actions.Update(action);
             _dbContext.SaveChanges();
 
-            return true;
+            result.IsSaved = true;
+
+            return result;
         }
     }
 }
