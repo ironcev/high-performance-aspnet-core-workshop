@@ -34,9 +34,19 @@ namespace GettingThingsDone.Contracts.Model
         public bool IsDone => DoneAt != null;
 
         /// <summary>
+        /// The ID of the list to which this action belongs or null if it doesn't belong to any list.
+        /// </summary>
+        public int? ListId { get; set; }
+
+        /// <summary>
         /// The list to which this action belongs or null if it doesn't belong to any list.
         /// </summary>
         public ActionList List { get; set; }
+
+        /// <summary>
+        /// The ID of the project to which this action belongs or null if it doesn't belong to any project.
+        /// </summary>
+        public int? ProjectId { get; set; }
 
         /// <summary>
         /// The project to which this action belongs or null if it doesn't belong to any project.
