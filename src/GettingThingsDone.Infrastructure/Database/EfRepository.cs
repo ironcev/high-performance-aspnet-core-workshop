@@ -1,73 +1,74 @@
 ﻿using GettingThingsDone.Contract.Interface;
 using GettingThingsDone.Contract.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace GettingThingsDone.Infrastructure.Database
 {
+    /// <summary>
+    /// Entity Framework based implementation of the <see cref="IRepository{T}"/>.
+    /// </summary>
     public class EfRepository<T> : IRepository<T> where T : Entity
     {
-        protected readonly GettingThingsDoneDbContext _dbContext;
+        protected GettingThingsDoneDbContext DbContext { get; }
 
         public EfRepository(GettingThingsDoneDbContext dbContext)
         {
-            _dbContext = dbContext;
+            DbContext = dbContext;
         }
 
         public virtual T GetById(int id)
         {
-            return _dbContext.Set<T>().Find(id);
+            return DbContext.Set<T>().Find(id);
         }
 
-        public T GetSingleBySpec(ISpecification<T> spec)
+        public T GetFirst(ISpecification<T> specification)
         {
-            return List(spec).FirstOrDefault();
+            return GetAll(specification).FirstOrDefault();
         }
 
-        public IEnumerable<T> ListAll()
+        public IEnumerable<T> GetAll()
         {
-            return _dbContext.Set<T>().AsEnumerable();
+            return DbContext.Set<T>().AsEnumerable();
         }
 
-        public IEnumerable<T> List(ISpecification<T> spec)
+        public IEnumerable<T> GetAll(ISpecification<T> specification)
         {
-            // fetch a Queryable that includes all expression-based includes
-            var queryableResultWithIncludes = spec.Includes
-                .Aggregate(_dbContext.Set<T>().AsQueryable(),
-                    (current, include) => current.Include(include));
+            // Fetch a queryable that includes all expression-based includes.
+            var queryableResultWithIncludes = specification
+                .Includes
+                .Aggregate(DbContext.Set<T>().AsQueryable(), (current, include) => current.Include(include));
 
-            // modify the IQueryable to include any string-based include statements
-            var secondaryResult = spec.IncludeStrings
-                .Aggregate(queryableResultWithIncludes,
-                    (current, include) => current.Include(include));
+            // Modify the queryable to include any string-based include statements.
+            var secondaryResult = specification
+                .IncludesAsStrings
+                .Aggregate(queryableResultWithIncludes, (current, include) => current.Include(include));
 
-            // return the result of the query using the specification's criteria expression
+            // Return the result of the query using the specification's criteria expression.
             return secondaryResult
-                            .Where(spec.Criteria)
-                            .AsEnumerable();
+                .Where(specification.Criteria)
+                .AsEnumerable();
         }
 
         public T Add(T entity)
         {
-            _dbContext.Set<T>().Add(entity);
-            _dbContext.SaveChanges();
+            DbContext.Set<T>().Add(entity);
+            DbContext.SaveChanges();
 
             return entity;
         }
 
         public void Update(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+            DbContext.Entry(entity).State = EntityState.Modified;
+            DbContext.SaveChanges();
         }
 
         public void Delete(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
-            _dbContext.SaveChanges();
+            DbContext.Set<T>().Remove(entity);
+            DbContext.SaveChanges();
         }
     }
 }

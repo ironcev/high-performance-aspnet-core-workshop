@@ -1,18 +1,16 @@
-﻿using GettingThingsDone.Contract.DTO;
-using System;
+﻿using GettingThingsDone.Contract.Dto;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GettingThingsDone.Contract.Interface
 {
-    public interface IActionRepository : IRepository<GettingThingsDone.Contract.Model.Action>
+    public interface IActionRepository : IRepository<Model.Action>
     {
-        GettingThingsDone.Contract.Model.Action GetByIdWithLists(int id);
+        Model.Action GetByIdWithLists(int id);
 
-        List<GettingThingsDone.Contract.Model.Action> GetTop(int count);
+        List<Model.Action> GetTop(int count);
 
-        DataActionResultDTO MoveToList(int id, int listId);
+        DataActionResultDto MoveToList(int id, int listId);
 
-        DataActionResultDTO AssignToProject(int id, int projectId);
+        DataActionResultDto AssignToProject(int id, int projectId);
     }
 }

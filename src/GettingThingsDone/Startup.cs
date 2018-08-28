@@ -1,17 +1,13 @@
 ﻿using GettingThingsDone.ApplicationCore.Services;
 using GettingThingsDone.Contract.Interface;
-using GettingThingsDone.Infrastructurebase;
 using GettingThingsDone.Infrastructure.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel;
-using System.Text;
 
 namespace GettingThingsDone
 {

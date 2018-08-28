@@ -1,9 +1,7 @@
-﻿using GettingThingsDone.Contract.DTO;
+﻿using GettingThingsDone.Contract.Dto;
 using GettingThingsDone.Contract.Interface;
 using GettingThingsDone.ApplicationCore.Helpers;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace GettingThingsDone.ApplicationCore.Services
@@ -12,24 +10,25 @@ namespace GettingThingsDone.ApplicationCore.Services
     {
         private readonly IActionRepository _actionRepository;
 
-        public ActionService(IRepository<Contract.Model.Action> repository,
+        public ActionService(
+            IRepository<Contract.Model.Action> repository,
             IActionRepository actionRepository
             )
         {
             _actionRepository = actionRepository;
         }
 
-        public ActionDTO GetAction(int id)
+        public ActionDto GetAction(int id)
         {
             var actionItem = _actionRepository.GetById(id);
-            ActionDTO actionDto = actionItem.TranslateTo<ActionDTO>();
-            //additional metadata exp
-            actionDto.UserId = 44;
+            ActionDto actionDto = actionItem.TranslateTo<ActionDto>();
+            
+            actionDto.UserId = 44; // TODO: Replace with real user id once we add support for users.
 
             return actionDto;
         }
 
-        public ActionDTO CreateOrUpdate(int? id, ActionDTO actionDto)
+        public ActionDto CreateOrUpdate(int? id, ActionDto actionDto)
         {
             Contract.Model.Action action = actionDto.TranslateTo<Contract.Model.Action>();
             try
@@ -44,30 +43,27 @@ namespace GettingThingsDone.ApplicationCore.Services
                     _actionRepository.Add(action);
                     actionDto.Id = action.Id;
                 }
-            } catch
-            {
+            } catch { }
 
-            }
             return actionDto;
         }
 
-        public List<ActionDTO> GetTop(int count)
+        public List<ActionDto> GetTop(int count)
         {
             var actions = _actionRepository.GetTop(count);
 
-            List<ActionDTO> actionDtos = new List<ActionDTO>();
+            List<ActionDto> actionDtos = new List<ActionDto>();
             foreach (var item in actions)
             {
-                actionDtos.Add(item.TranslateTo<ActionDTO>());
+                actionDtos.Add(item.TranslateTo<ActionDto>());
             }
 
-            return actionDtos;
-            
+            return actionDtos;            
         }
 
-        public DataActionResultDTO Delete(int id)
+        public DataActionResultDto Delete(int id)
         {
-            DataActionResultDTO result = new DataActionResultDTO();
+            DataActionResultDto result = new DataActionResultDto();
             result.IsSaved = false;
             try
             {
@@ -79,16 +75,14 @@ namespace GettingThingsDone.ApplicationCore.Services
             return result;
         }
 
-        public DataActionResultDTO MoveToList(int id, int listId)
+        public DataActionResultDto MoveToList(int id, int listId)
         {
             return _actionRepository.MoveToList(id, listId);
         }
 
-        public DataActionResultDTO AssignToProject(int id, int projectId)
+        public DataActionResultDto AssignToProject(int id, int projectId)
         {
             return _actionRepository.AssignToProject(id, projectId);
-        }
-
-       
+        }       
     }
 }

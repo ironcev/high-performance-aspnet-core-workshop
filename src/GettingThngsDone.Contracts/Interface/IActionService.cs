@@ -1,19 +1,15 @@
-﻿using GettingThingsDone.Contract.DTO;
-using System;
+﻿using GettingThingsDone.Contract.Dto;
 using System.Collections.Generic;
-using System.Text;
-using Action = GettingThingsDone.Contract.Model.Action;
 
 namespace GettingThingsDone.Contract.Interface
 {
     public interface IActionService
     {
-        ActionDTO GetAction(int id);
-        List<ActionDTO> GetTop(int count);
-        ActionDTO CreateOrUpdate(int? id, ActionDTO actionDto);
-        DataActionResultDTO Delete(int id);
-        DataActionResultDTO MoveToList(int id, int listId);
-        DataActionResultDTO AssignToProject(int id, int projectId);
-
+        ActionDto GetAction(int id);
+        List<ActionDto> GetTop(int count);
+        ActionDto CreateOrUpdate(int? id, ActionDto actionDto);
+        DataActionResultDto Delete(int id);
+        DataActionResultDto MoveToList(int id, int listId);
+        DataActionResultDto AssignToProject(int id, int projectId);
     }
 }

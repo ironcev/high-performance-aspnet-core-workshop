@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using GettingThingsDone.Infrastructure.Database;
-using Action = GettingThingsDone.Contract.Model.Action;
 using Microsoft.AspNetCore.Mvc;
 using GettingThingsDone.Contract.Interface;
-using GettingThingsDone.Contract.DTO;
+using GettingThingsDone.Contract.Dto;
 
 namespace GettingThingsDone.Controllers
 {
@@ -17,35 +16,33 @@ namespace GettingThingsDone.Controllers
         }
 
         private readonly IActionService _actionService;
-        private GettingThingsDoneDbContext _dbContext;
 
-        public ActionController(GettingThingsDoneDbContext dbContext, IActionService actionService)  {
-            _dbContext = dbContext;
+        public ActionController(GettingThingsDoneDbContext dbContext, IActionService actionService)
+        {
             _actionService = actionService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ActionDTO>> GetAll()
+        public ActionResult<IEnumerable<ActionDto>> GetAll()
         {
             return Ok(_actionService.GetTop(10));
         }
 
         [HttpGet("{id}", Name = Routes.GetActionById)]
-        public ActionResult<ActionDTO> GetById(int id)
+        public ActionResult<ActionDto> GetById(int id)
         {
             return Ok(_actionService.GetAction(id));
-
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] ActionDTO value)
+        public IActionResult Create([FromBody] ActionDto value)
         {
             var action = _actionService.CreateOrUpdate(null, value);
             return CreatedAtRoute(Routes.GetActionById, new { id = action.Id }, action);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] ActionDTO value)
+        public IActionResult Update(int id, [FromBody] ActionDto value)
         {
             _actionService.CreateOrUpdate(id, value);
 
@@ -55,7 +52,6 @@ namespace GettingThingsDone.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-
             var result = _actionService.Delete(id);
             if (!result.IsSaved) return NotFound();
 

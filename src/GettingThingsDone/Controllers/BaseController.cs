@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using GettingThingsDone.Infrastructurebase;
 using GettingThingsDone.Contract.Model;
 using Microsoft.AspNetCore.Mvc;
 using GettingThingsDone.Infrastructure.Database;

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GettingThingsDone.Contract.DTO
+﻿namespace GettingThingsDone.Contract.Dto
 {
-    public class DataActionResultDTO
+    public class DataActionResultDto
     {
         public bool IsSaved { get; set; }
         public string Message { get; set; }
