@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using GettingThingsDone.Contract.Model;
-using Microsoft.AspNetCore.Mvc;
 using GettingThingsDone.Infrastructure.Database;
+using Microsoft.AspNetCore.Mvc;
 
-namespace GettingThingsDone.Controllers
+namespace GettingThingsDone.WebApi.Controllers
 {
     public abstract class BaseController : ControllerBase
     {

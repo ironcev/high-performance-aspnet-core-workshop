@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using GettingThingsDone.Contract.Interface;
 using GettingThingsDone.Contract.Dto;
+using GettingThingsDone.Contract.Interface;
+using Microsoft.AspNetCore.Mvc;
 
-namespace GettingThingsDone.Controllers
+namespace GettingThingsDone.WebApi.Controllers
 {
     [Route("api/actions")]
     [ApiController]

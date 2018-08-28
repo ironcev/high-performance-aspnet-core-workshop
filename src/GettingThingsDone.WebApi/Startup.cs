@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GettingThingsDone
+namespace GettingThingsDone.WebApi
 {
     public class Startup
     {

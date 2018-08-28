@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace GettingThingsDone
+namespace GettingThingsDone.WebApi
 {
     public class Program
     {
