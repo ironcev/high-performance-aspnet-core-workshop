@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GettingThingsDone.ApplicationCore\GettingThingsDone.ApplicationCore.csproj" />
-    <ProjectReference Include="..\GettingThngsDone.Contracts\GettingThingsDone.Contract.csproj" />
+    <ProjectReference Include="..\GettingThingsDone.Contracts\GettingThingsDone.Contract.csproj" />
   </ItemGroup>
 
 </Project>

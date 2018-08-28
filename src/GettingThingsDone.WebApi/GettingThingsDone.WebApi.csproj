@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -23,7 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GettingThingsDone.ApplicationCore\GettingThingsDone.ApplicationCore.csproj" />
     <ProjectReference Include="..\GettingThingsDone.Infrastructure\GettingThingsDone.Infrastructure.csproj" />
-    <ProjectReference Include="..\GettingThngsDone.Contracts\GettingThingsDone.Contract.csproj" />
+    <ProjectReference Include="..\GettingThingsDone.Contracts\GettingThingsDone.Contract.csproj" />
   </ItemGroup>
 
 </Project>

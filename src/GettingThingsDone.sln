@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingThingsDone.WebApi", "GettingThingsDone.WebApi\GettingThingsDone.WebApi.csproj", "{93D7B08C-8AE4-48AA-B875-806718297C86}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingThingsDone.Contract", "GettingThngsDone.Contracts\GettingThingsDone.Contract.csproj", "{18C6629F-3DEC-45A0-A14F-C3461F16C2FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingThingsDone.Contract", "GettingThingsDone.Contracts\GettingThingsDone.Contract.csproj", "{18C6629F-3DEC-45A0-A14F-C3461F16C2FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingThingsDone.Infrastructure", "GettingThingsDone.Infrastructure\GettingThingsDone.Infrastructure.csproj", "{58F46D50-7BE3-4E7D-83A1-027FE372EEB1}"
 EndProject
