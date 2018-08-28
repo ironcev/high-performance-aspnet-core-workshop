@@ -16,18 +16,23 @@ namespace GettingThingsDone.WebApi.Controllers
             public const string GetProject = nameof(GetProject);
         }
 
-        public ProjectController(GettingThingsDoneDbContext dbContext) : base(dbContext) { }
+        private readonly GettingThingsDoneDbContext _dbContext;
+
+        public ProjectController(GettingThingsDoneDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<Project>> GetAll()
         {
-            return DbContext.Projects;
+            return _dbContext.Projects;
         }
 
         [HttpGet("{id}", Name = Routes.GetProject)]
         public ActionResult<Project> GetById(int id)
         {
-            var project = DbContext.Projects.Find(id);
+            var project = _dbContext.Projects.Find(id);
             if (project == null)
                 return NotFound();
             return project;
@@ -36,8 +41,8 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Project value)
         {
-            DbContext.Projects.Add(value);
-            DbContext.SaveChanges();
+            _dbContext.Projects.Add(value);
+            _dbContext.SaveChanges();
 
             return CreatedAtRoute(Routes.GetProject, new { id = value.Id }, value);
         }
@@ -45,14 +50,14 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] Project value)
         {
-            var project = DbContext.Projects.Find(id);
+            var project = _dbContext.Projects.Find(id);
             if (project == null)
                 return NotFound();
 
             project.Name = value.Name;
 
-            DbContext.Projects.Update(project);
-            DbContext.SaveChanges();
+            _dbContext.Projects.Update(project);
+            _dbContext.SaveChanges();
 
             return NoContent();
         }
@@ -60,14 +65,14 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var project = DbContext.Projects.Find(id);
+            var project = _dbContext.Projects.Find(id);
             if (project == null)
             {
                 return NotFound();
             }
 
-            DbContext.Projects.Remove(project);
-            DbContext.SaveChanges();
+            _dbContext.Projects.Remove(project);
+            _dbContext.SaveChanges();
 
             return NoContent();
         }
@@ -75,7 +80,7 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpGet("{id}/actions")]
         public ActionResult<IEnumerable<Action>> GetProjectActions(int id)
         {
-            var project = DbContext.Projects.Include(x => x.Actions).FirstOrDefault(l => l.Id == id);
+            var project = _dbContext.Projects.Include(x => x.Actions).FirstOrDefault(l => l.Id == id);
             if (project == null)
                 return NotFound();
             var actionsToReturn = RemoveListAndProjectFromActions(project.Actions.ToList());

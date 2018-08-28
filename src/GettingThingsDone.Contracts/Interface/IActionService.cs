@@ -5,11 +5,11 @@ namespace GettingThingsDone.Contracts.Interface
 {
     public interface IActionService
     {
-        ActionDto GetAction(int id);
-        List<ActionDto> GetAll();
-        ActionDto CreateOrUpdate(ActionDto actionDto);
-        DataActionResultDto Delete(int id);
-        DataActionResultDto MoveToList(int id, int listId);
-        DataActionResultDto AssignToProject(int id, int projectId);
+        ServiceResult<ActionDto> GetAction(int id);
+        ServiceResult<List<ActionDto>> GetAll();
+        ServiceResult<ActionDto> CreateOrUpdate(ActionDto actionDto);
+        ServiceResult Delete(int id);
+        ServiceResult MoveToList(int id, int listId);
+        ServiceResult AssignToProject(int id, int projectId);
     }
 }

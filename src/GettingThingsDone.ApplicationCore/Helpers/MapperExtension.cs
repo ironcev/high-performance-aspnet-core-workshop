@@ -19,7 +19,7 @@ namespace GettingThingsDone.ApplicationCore.Helpers
         /// </summary>
         public static TDestination TranslateTo<TDestination>(this object from) where TDestination : new()
         {
-            if (from == null) return default(TDestination);
+            if (from == null) return default;
 
             TDestination to = new TDestination();
 

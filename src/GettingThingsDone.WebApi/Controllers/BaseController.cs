@@ -1,17 +1,55 @@
-﻿using System.Collections.Generic;
-using GettingThingsDone.Contracts.Model;
-using GettingThingsDone.Infrastructure.Database;
+﻿using System;
+using System.Collections.Generic;
+using GettingThingsDone.Contracts.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Action = GettingThingsDone.Contracts.Model.Action;
 
 namespace GettingThingsDone.WebApi.Controllers
 {
-    public abstract class BaseController : ControllerBase
+    public abstract class BaseController : Controller
     {
-        protected GettingThingsDoneDbContext DbContext { get; }
-
-        protected BaseController(GettingThingsDoneDbContext dbContext)
+        /// <summary>
+        /// Maps <see cref="ServiceResult{TValue}"/> to <see cref="ActionResult{TValue}"/>
+        /// with suitable HTTP error codes.
+        /// </summary>
+        protected ActionResult<TValue> FromValueServiceResult<TValue>(ServiceResult<TValue> result)
         {
-            DbContext = dbContext;
+            switch (result.Status)
+            {
+                case ServiceCallStatus.Ok:
+                    return Ok(result.Value);
+                case ServiceCallStatus.EntityNotFound:
+                    return NotFound(result.Messages);
+                case ServiceCallStatus.UnauthorizedAccess:
+                    return Unauthorized();
+                case ServiceCallStatus.InvalidOperation:
+                    return BadRequest(result.Messages);
+                case ServiceCallStatus.InvalidEntity:
+                    return BadRequest(result.Messages);
+                default: throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Maps <see cref="IServiceResult"/> to <see cref="IActionResult"/>
+        /// with suitable HTTP error codes.
+        /// </summary>
+        protected IActionResult FromServiceResult(IServiceResult result)
+        {
+            switch (result.Status)
+            {
+                case ServiceCallStatus.Ok:
+                    return Ok();
+                case ServiceCallStatus.EntityNotFound:
+                    return NotFound(result.Messages);
+                case ServiceCallStatus.UnauthorizedAccess:
+                    return Unauthorized();
+                case ServiceCallStatus.InvalidOperation:
+                    return BadRequest(result.Messages);
+                case ServiceCallStatus.InvalidEntity:
+                    return BadRequest(result.Messages);
+                default: throw new NotImplementedException();
+            }
         }
 
         /// <summary>

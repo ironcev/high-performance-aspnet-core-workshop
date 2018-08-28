@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GettingThingsDone.ApplicationCore.Helpers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace GettingThingsDone.WebApi.Controllers
 {
     [Route("api/actions")]
     [ApiController]
-    public class ActionController: Controller 
+    public class ActionController: BaseController 
     {
         private static class Routes
         {
@@ -22,15 +23,15 @@ namespace GettingThingsDone.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ActionDto>> GetAll()
+        public ActionResult<List<ActionDto>> GetAll()
         {
-            return Ok(_actionService.GetAll());
+            return FromValueServiceResult(_actionService.GetAll());
         }
 
         [HttpGet("{id}", Name = Routes.GetActionById)]
         public ActionResult<ActionDto> GetById(int id)
         {
-            return Ok(_actionService.GetAction(id));
+            return FromValueServiceResult(_actionService.GetAction(id));
         }
 
         [HttpPost]
@@ -39,8 +40,12 @@ namespace GettingThingsDone.WebApi.Controllers
             if (!value.RepresentsNewEntity)
                 return BadRequest();
 
-            var action = _actionService.CreateOrUpdate(value);
-            return CreatedAtRoute(Routes.GetActionById, new { id = action.Id }, action);
+            var result = _actionService.CreateOrUpdate(value);
+
+            if (!result.IsOk())
+                return FromServiceResult(result);
+
+            return CreatedAtRoute(Routes.GetActionById, new { id = result.Value.Id }, result.Value);
         }
 
         [HttpPut]
@@ -49,7 +54,10 @@ namespace GettingThingsDone.WebApi.Controllers
             if (value.RepresentsNewEntity)
                 return BadRequest();
 
-            _actionService.CreateOrUpdate(value);
+            var result = _actionService.CreateOrUpdate(value);
+
+            if (!result.IsOk())
+                return FromServiceResult(result);
 
             return NoContent();
         }
@@ -58,7 +66,9 @@ namespace GettingThingsDone.WebApi.Controllers
         public IActionResult Delete(int id)
         {
             var result = _actionService.Delete(id);
-            if (!result.IsSaved) return NotFound();
+
+            if (!result.IsOk())
+                return FromServiceResult(result);
 
             return NoContent();
         }
@@ -66,14 +76,22 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpPut("{id}/move-to/{listId}")]
         public IActionResult MoveToList(int id, int listId)
         {
-            _actionService.MoveToList(id, listId);
+            var result = _actionService.MoveToList(id, listId);
+
+            if (!result.IsOk())
+                return FromServiceResult(result);
+
             return NoContent();
         }
 
         [HttpPut("{id}/assign-to/{projectId}")]
         public IActionResult AssignToProject(int id, int projectId)
         {
-            _actionService.AssignToProject(id, projectId);
+            var result =_actionService.AssignToProject(id, projectId);
+
+            if (!result.IsOk())
+                return FromServiceResult(result);
+
             return NoContent();
         }
     }

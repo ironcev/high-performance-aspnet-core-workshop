@@ -8,8 +8,9 @@ POST http://localhost:55555/api/actions
     "Title": "Prepare workshop example"
 }
 
-PUT http://localhost:55555/api/actions/1
+PUT http://localhost:55555/api/actions
 {
+    "Id": 1,
     "Title": "Prepare workshop example",
     "DueDate": "2018-12-16T12:00:00+01:00"
 }

@@ -16,18 +16,23 @@ namespace GettingThingsDone.WebApi.Controllers
             public const string GetList = nameof(GetList);
         }
 
-        public ActionListController(GettingThingsDoneDbContext dbContext) : base(dbContext) { }
+        private readonly GettingThingsDoneDbContext _dbContext;
+
+        public ActionListController(GettingThingsDoneDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<ActionList>> GetAll()
         {
-            return DbContext.Lists;
+            return _dbContext.Lists;
         }
 
         [HttpGet("{id}", Name = Routes.GetList)]
         public ActionResult<ActionList> GetById(int id)
         {
-            var list = DbContext.Lists.Find(id);
+            var list = _dbContext.Lists.Find(id);
             if (list == null)
                 return NotFound();
             return list;
@@ -36,8 +41,8 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] ActionList value)
         {
-            DbContext.Lists.Add(value);
-            DbContext.SaveChanges();
+            _dbContext.Lists.Add(value);
+            _dbContext.SaveChanges();
 
             return CreatedAtRoute(Routes.GetList, new { id = value.Id }, value);
         }
@@ -45,14 +50,14 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] ActionList value)
         {
-            var list = DbContext.Lists.Find(id);
+            var list = _dbContext.Lists.Find(id);
             if (list == null)
                 return NotFound();
 
             list.Name = value.Name;
 
-            DbContext.Lists.Update(list);
-            DbContext.SaveChanges();
+            _dbContext.Lists.Update(list);
+            _dbContext.SaveChanges();
 
             return NoContent();
         }
@@ -60,14 +65,14 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var list = DbContext.Lists.Find(id);
+            var list = _dbContext.Lists.Find(id);
             if (list == null)
             {
                 return NotFound();
             }
 
-            DbContext.Lists.Remove(list);
-            DbContext.SaveChanges();
+            _dbContext.Lists.Remove(list);
+            _dbContext.SaveChanges();
 
             return NoContent();
         }
@@ -75,7 +80,7 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpGet("{id}/actions")]
         public ActionResult<IEnumerable<Action>> GetListActions(int id)
         {
-            var list = DbContext.Lists.Include(x => x.Actions).FirstOrDefault(l => l.Id == id);
+            var list = _dbContext.Lists.Include(x => x.Actions).FirstOrDefault(l => l.Id == id);
             if (list == null)
                 return NotFound();
             var actionsToReturn = RemoveListAndProjectFromActions(list.Actions.ToList());

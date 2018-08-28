@@ -4,12 +4,13 @@ using GettingThingsDone.ApplicationCore.Helpers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
 using GettingThingsDone.Contracts.Model;
+using static GettingThingsDone.Contracts.Interface.ServiceResult;
 
 namespace GettingThingsDone.ApplicationCore.Services
 {
     // This is a sample implementation.
     // As such, it contains detailed comments to emphases the general principle.
-    // This comments shouldn't be in the real-life code.
+    // These kind of comments shouldn't be in the real-life code.
     public class ActionService : IActionService
     {
         private readonly IRepository<Action> _actionRepository;
@@ -27,30 +28,37 @@ namespace GettingThingsDone.ApplicationCore.Services
             _projectRepository = projectRepository;
         }
 
-        public ActionDto GetAction(int id)
+        public ServiceResult<ActionDto> GetAction(int id)
         {
             // Get the entity from the repository.
-            var actionItem = _actionRepository.GetById(id);
+            var action = _actionRepository.GetById(id);
+
+            // Return the appropriate service result if the
+            // requested entity does not exist.
+            if (action == null)
+                return EntityNotFound<ActionDto>();
 
             // Translate it into DTO and return.
-            ActionDto actionDto = actionItem.TranslateTo<ActionDto>();
-
-            return actionDto;
+            return action
+                .TranslateTo<ActionDto>()
+                .ToOkServiceResult();
         }
 
-        public List<ActionDto> GetAll()
+        public ServiceResult<List<ActionDto>> GetAll()
         {
             return _actionRepository
                 .GetAll() // Get the entities from the repository.
                 .Select(action => action.TranslateTo<ActionDto>()) // Translate them into DTOs.
-                .ToList(); // And return.
+                .ToList()
+                .ToOkServiceResult(); // And return.
         }
 
-        // This is the simplest implementation in the CRUD scenarios.
+        // This is the simplest implementation usual in CRUD scenarios
+        // or CRUD scenarios with additional validation.
         // In complex scenarios creating a new entity and editing existing
         // once can differ significantly. In that case we recommend to
         // split this method into two or more.
-        public ActionDto CreateOrUpdate(ActionDto actionDto)
+        public ServiceResult<ActionDto> CreateOrUpdate(ActionDto actionDto)
         {
             // Either create a new entity based on the DTO
             // or change an existing one based on the DTO.
@@ -58,7 +66,11 @@ namespace GettingThingsDone.ApplicationCore.Services
                 ? actionDto.TranslateTo<Action>()
                 : _actionRepository.GetById(actionDto.Id).CopyPropertiesFrom(actionDto);
 
-            // TODO: Later on we will do the checks here and see how to return the result.
+            // Check if the entity exists (if it was an update).
+            if (action == null)
+                return EntityNotFound(actionDto);
+
+            // TODO: Later on we will do the checks here.
             //       So far we assume everything always works fine.
 
             // Save changes.
@@ -71,75 +83,53 @@ namespace GettingThingsDone.ApplicationCore.Services
 
             actionDto.Id = action.Id;
 
-            return actionDto;
+            return Ok(actionDto);
         }
 
-        public DataActionResultDto Delete(int id)
+        public ServiceResult Delete(int id)
         {
-            DataActionResultDto result = new DataActionResultDto();
-            result.IsSaved = false;
+            var action = _actionRepository.GetById(id);
 
-            try
-            {
-                var action = _actionRepository.GetById(id);
-                _actionRepository.Delete(action);
-                result.IsSaved = true;
-            } catch { }
+            if (action == null)
+                return EntityNotFound();
 
-            return result;
+            _actionRepository.Delete(action);
+
+            return Ok();
         }
 
-        public DataActionResultDto MoveToList(int id, int listId)
+        public ServiceResult MoveToList(int id, int listId)
         {
-            DataActionResultDto result = new DataActionResultDto();
-            result.IsSaved = false;
             var action = _actionRepository.GetById(id);
             if (action == null)
-            {
-                result.Message = "Action not found.";
-                return result;
-            }
+                return EntityNotFound("Action not found.");
 
             var list = _listRepository.GetById(listId);
             if (list == null)
-            {
-                result.Message = "List not found.";
-                return result;
-            }
+                return EntityNotFound("List not found.");
 
             action.List = list;
 
             _actionRepository.AddOrUpdate(action);
 
-            result.IsSaved = true;
-
-            return result;
+            return Ok();
         }
 
-        public DataActionResultDto AssignToProject(int id, int projectId)
+        public ServiceResult AssignToProject(int id, int projectId)
         {
-            DataActionResultDto result = new DataActionResultDto();
             var action = _actionRepository.GetById(id);
             if (action == null)
-            {
-                result.Message = "Action not found.";
-                return result;
-            }
+                return EntityNotFound("Action not found.");
 
             var project = _projectRepository.GetById(projectId);
             if (project == null)
-            {
-                result.Message = "Project not found.";
-                return result;
-            }
+                return EntityNotFound("Project not found.");
 
             action.Project = project;
 
             _actionRepository.AddOrUpdate(action);
-            
-            result.IsSaved = true;
 
-            return result;
+            return Ok();
         }
     }
 }
