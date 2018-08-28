@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6423126b-f99f-4370-83f7-9faf3a019c59",
+		"_postman_id": "8ef87831-d210-483f-abbd-35fff1036111",
 		"name": "Getting Things Done",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -73,10 +73,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Title\": \"Prepare workshop example\",\r\n\t\"DueDate\": \"2018-12-16T12:00:00+01:00\"\r\n}"
+							"raw": "{\r\n\t\"Id\": 1,\r\n    \"Title\": \"Prepare workshop example\",\r\n\t\"DueDate\": \"2018-12-16T12:00:00+01:00\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:55555/api/actions/1",
+							"raw": "http://localhost:55555/api/actions",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -84,8 +84,7 @@
 							"port": "55555",
 							"path": [
 								"api",
-								"actions",
-								"1"
+								"actions"
 							]
 						}
 					},

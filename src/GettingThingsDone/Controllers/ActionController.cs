@@ -36,14 +36,20 @@ namespace GettingThingsDone.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] ActionDto value)
         {
-            var action = _actionService.CreateOrUpdate(null, value);
+            if (!value.RepresentsNewEntity)
+                return BadRequest();
+
+            var action = _actionService.CreateOrUpdate(value);
             return CreatedAtRoute(Routes.GetActionById, new { id = action.Id }, action);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] ActionDto value)
+        [HttpPut]
+        public IActionResult Update([FromBody] ActionDto value)
         {
-            _actionService.CreateOrUpdate(id, value);
+            if (value.RepresentsNewEntity)
+                return BadRequest();
+
+            _actionService.CreateOrUpdate(value);
 
             return NoContent();
         }

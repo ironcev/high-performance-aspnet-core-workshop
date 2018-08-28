@@ -57,9 +57,9 @@ namespace GettingThingsDone.ApplicationCore.Helpers
         /// </summary>
         /// <param name="to">The object to which to copy the properties.</param>
         /// <param name="from">The object from which to copy the properties.</param>
-        public static void CopyPropertiesFrom(this object to, object from)
+        public static TDestination CopyPropertiesFrom<TDestination>(this TDestination to, object from)
         {
-            if (from == null || to == null) return;
+            if (from == null || to == null) return to;
 
             PropertyInfo[] properties = to.GetType().GetProperties();
 
@@ -84,6 +84,8 @@ namespace GettingThingsDone.ApplicationCore.Helpers
                     catch { }
                 }
             }
+
+            return to;
         }
     }
 }

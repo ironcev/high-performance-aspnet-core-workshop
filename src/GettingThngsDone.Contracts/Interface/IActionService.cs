@@ -7,7 +7,7 @@ namespace GettingThingsDone.Contract.Interface
     {
         ActionDto GetAction(int id);
         List<ActionDto> GetAll();
-        ActionDto CreateOrUpdate(int? id, ActionDto actionDto);
+        ActionDto CreateOrUpdate(ActionDto actionDto);
         DataActionResultDto Delete(int id);
         DataActionResultDto MoveToList(int id, int listId);
         DataActionResultDto AssignToProject(int id, int projectId);

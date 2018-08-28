@@ -32,13 +32,9 @@ namespace GettingThingsDone.Contract.Interface
         /// </summary>
         IEnumerable<T> GetAll(ISpecification<T> specification);
         /// <summary>
-        /// Adds <paramref name="entity"/> to the repository.
+        /// Adds a new or updates an existing <paramref name="entity"/> in the repository.
         /// </summary>
-        T Add(T entity);
-        /// <summary>
-        /// Updates an existing <paramref name="entity"/> in the repository.
-        /// </summary>
-        void Update(T entity);
+        T AddOrUpdate(T entity);
         /// <summary>
         /// Deletes an existing <paramref name="entity"/> form the repository.
         /// </summary>

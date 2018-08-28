@@ -51,18 +51,20 @@ namespace GettingThingsDone.Infrastructure.Database
                 .AsEnumerable();
         }
 
-        public T Add(T entity)
+        public T AddOrUpdate(T entity)
         {
-            DbContext.Set<T>().Add(entity);
+            if (entity.Id == default(int))
+            {
+                DbContext.Set<T>().Add(entity);
+            }
+            else
+            {
+                DbContext.Entry(entity).State = EntityState.Modified;
+            }
+
             DbContext.SaveChanges();
 
             return entity;
-        }
-
-        public void Update(T entity)
-        {
-            DbContext.Entry(entity).State = EntityState.Modified;
-            DbContext.SaveChanges();
         }
 
         public void Delete(T entity)
