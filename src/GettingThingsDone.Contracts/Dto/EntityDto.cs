@@ -1,4 +1,4 @@
-﻿namespace GettingThingsDone.Contract.Dto
+﻿namespace GettingThingsDone.Contracts.Dto
 {
     /// <summary>
     /// A base DTO object for all entities.

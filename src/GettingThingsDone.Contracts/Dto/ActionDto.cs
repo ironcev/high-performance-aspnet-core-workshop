@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GettingThingsDone.Contract.Dto
+namespace GettingThingsDone.Contracts.Dto
 {
     public class ActionDto : EntityDto
     {

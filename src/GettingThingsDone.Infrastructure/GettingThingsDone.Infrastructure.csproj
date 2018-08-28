@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GettingThingsDone.ApplicationCore\GettingThingsDone.ApplicationCore.csproj" />
-    <ProjectReference Include="..\GettingThingsDone.Contracts\GettingThingsDone.Contract.csproj" />
+    <ProjectReference Include="..\GettingThingsDone.Contracts\GettingThingsDone.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

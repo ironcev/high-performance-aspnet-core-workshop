@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GettingThingsDone.ApplicationCore.Helpers;
-using GettingThingsDone.Contract.Dto;
-using GettingThingsDone.Contract.Interface;
-using GettingThingsDone.Contract.Model;
+using GettingThingsDone.Contracts.Dto;
+using GettingThingsDone.Contracts.Interface;
+using GettingThingsDone.Contracts.Model;
 
 namespace GettingThingsDone.ApplicationCore.Services
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using GettingThingsDone.Contract.Dto;
-using GettingThingsDone.Contract.Interface;
+using GettingThingsDone.Contracts.Dto;
+using GettingThingsDone.Contracts.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GettingThingsDone.WebApi.Controllers

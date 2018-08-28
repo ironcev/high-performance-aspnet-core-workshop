@@ -1,5 +1,5 @@
 ﻿using GettingThingsDone.ApplicationCore.Services;
-using GettingThingsDone.Contract.Interface;
+using GettingThingsDone.Contracts.Interface;
 using GettingThingsDone.Infrastructure.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

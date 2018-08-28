@@ -1,7 +1,7 @@
-﻿using GettingThingsDone.Contract.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GettingThingsDone.Contracts.Model;
 
-namespace GettingThingsDone.Contract.Interface
+namespace GettingThingsDone.Contracts.Interface
 {
     /// <summary>
     /// A generic repository of entities of type <typeparamref name="T"/>.

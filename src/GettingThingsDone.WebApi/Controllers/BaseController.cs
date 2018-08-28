@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GettingThingsDone.Contract.Model;
+using GettingThingsDone.Contracts.Model;
 using GettingThingsDone.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 

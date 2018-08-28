@@ -1,8 +1,8 @@
-﻿using GettingThingsDone.Contract.Interface;
-using GettingThingsDone.Contract.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using GettingThingsDone.Contracts.Interface;
+using GettingThingsDone.Contracts.Model;
 
 namespace GettingThingsDone.Infrastructure.Database
 {

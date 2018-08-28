@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace GettingThingsDone.Contract.Interface
+namespace GettingThingsDone.Contracts.Interface
 {
     /// <summary>
     /// A specification of a query over a <see cref="IRepository{T}"/>.

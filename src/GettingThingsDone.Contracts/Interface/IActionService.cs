@@ -1,7 +1,7 @@
-﻿using GettingThingsDone.Contract.Dto;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GettingThingsDone.Contracts.Dto;
 
-namespace GettingThingsDone.Contract.Interface
+namespace GettingThingsDone.Contracts.Interface
 {
     public interface IActionService
     {

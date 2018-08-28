@@ -22,8 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GettingThingsDone.ApplicationCore\GettingThingsDone.ApplicationCore.csproj" />
+    <ProjectReference Include="..\GettingThingsDone.Contracts\GettingThingsDone.Contracts.csproj" />
     <ProjectReference Include="..\GettingThingsDone.Infrastructure\GettingThingsDone.Infrastructure.csproj" />
-    <ProjectReference Include="..\GettingThingsDone.Contracts\GettingThingsDone.Contract.csproj" />
   </ItemGroup>
 
 </Project>

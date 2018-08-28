@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace GettingThingsDone.Contract.Model
+namespace GettingThingsDone.Contracts.Model
 {
     /// <summary>
     /// Represents a GTD action list.
