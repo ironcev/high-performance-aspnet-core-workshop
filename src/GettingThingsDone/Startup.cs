@@ -27,7 +27,6 @@ namespace GettingThingsDone
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IActionService, ActionService>();
-            services.AddScoped<IActionRepository, ActionRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

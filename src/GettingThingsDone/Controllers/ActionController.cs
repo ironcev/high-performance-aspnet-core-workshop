@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using GettingThingsDone.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 using GettingThingsDone.Contract.Interface;
 using GettingThingsDone.Contract.Dto;
@@ -17,7 +16,7 @@ namespace GettingThingsDone.Controllers
 
         private readonly IActionService _actionService;
 
-        public ActionController(GettingThingsDoneDbContext dbContext, IActionService actionService)
+        public ActionController(IActionService actionService)
         {
             _actionService = actionService;
         }
@@ -25,7 +24,7 @@ namespace GettingThingsDone.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ActionDto>> GetAll()
         {
-            return Ok(_actionService.GetTop(10));
+            return Ok(_actionService.GetAll());
         }
 
         [HttpGet("{id}", Name = Routes.GetActionById)]

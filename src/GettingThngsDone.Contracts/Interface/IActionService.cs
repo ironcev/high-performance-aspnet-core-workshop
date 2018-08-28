@@ -6,7 +6,7 @@ namespace GettingThingsDone.Contract.Interface
     public interface IActionService
     {
         ActionDto GetAction(int id);
-        List<ActionDto> GetTop(int count);
+        List<ActionDto> GetAll();
         ActionDto CreateOrUpdate(int? id, ActionDto actionDto);
         DataActionResultDto Delete(int id);
         DataActionResultDto MoveToList(int id, int listId);

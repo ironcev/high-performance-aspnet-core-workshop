@@ -1,21 +1,26 @@
-﻿using GettingThingsDone.Contract.Dto;
-using GettingThingsDone.Contract.Interface;
+﻿using System.Collections.Generic;
+using System.Linq;
 using GettingThingsDone.ApplicationCore.Helpers;
-using System.Collections.Generic;
-
+using GettingThingsDone.Contract.Dto;
+using GettingThingsDone.Contract.Interface;
+using GettingThingsDone.Contract.Model;
 
 namespace GettingThingsDone.ApplicationCore.Services
 {
     public class ActionService : IActionService
     {
-        private readonly IActionRepository _actionRepository;
+        private readonly IRepository<Action> _actionRepository;
+        private readonly IRepository<ActionList> _listRepository;
+        private readonly IRepository<Project> _projectRepository;
 
         public ActionService(
-            IRepository<Contract.Model.Action> repository,
-            IActionRepository actionRepository
-            )
+            IRepository<Action> actionRepository,
+            IRepository<ActionList> listRepository,
+            IRepository<Project> projectRepository)
         {
             _actionRepository = actionRepository;
+            _listRepository = listRepository;
+            _projectRepository = projectRepository;
         }
 
         public ActionDto GetAction(int id)
@@ -28,9 +33,14 @@ namespace GettingThingsDone.ApplicationCore.Services
             return actionDto;
         }
 
+        public List<ActionDto> GetAll()
+        {
+            return _actionRepository.GetAll().Select(action => action.TranslateTo<ActionDto>()).ToList();
+        }
+
         public ActionDto CreateOrUpdate(int? id, ActionDto actionDto)
         {
-            Contract.Model.Action action = actionDto.TranslateTo<Contract.Model.Action>();
+            Action action = actionDto.TranslateTo<Action>();
             try
             {
                 if (id.HasValue)
@@ -46,19 +56,6 @@ namespace GettingThingsDone.ApplicationCore.Services
             } catch { }
 
             return actionDto;
-        }
-
-        public List<ActionDto> GetTop(int count)
-        {
-            var actions = _actionRepository.GetTop(count);
-
-            List<ActionDto> actionDtos = new List<ActionDto>();
-            foreach (var item in actions)
-            {
-                actionDtos.Add(item.TranslateTo<ActionDto>());
-            }
-
-            return actionDtos;            
         }
 
         public DataActionResultDto Delete(int id)
@@ -77,12 +74,56 @@ namespace GettingThingsDone.ApplicationCore.Services
 
         public DataActionResultDto MoveToList(int id, int listId)
         {
-            return _actionRepository.MoveToList(id, listId);
+            DataActionResultDto result = new DataActionResultDto();
+            result.IsSaved = false;
+            var action = _actionRepository.GetById(id);
+            if (action == null)
+            {
+                result.Message = "Action not found.";
+                return result;
+            }
+
+
+            var list = _listRepository.GetById(listId);
+            if (list == null)
+            {
+                result.Message = "List not found.";
+                return result;
+            }
+
+            action.List = list;
+
+            _actionRepository.Update(action);
+
+            result.IsSaved = true;
+
+            return result;
         }
 
         public DataActionResultDto AssignToProject(int id, int projectId)
         {
-            return _actionRepository.AssignToProject(id, projectId);
-        }       
+            DataActionResultDto result = new DataActionResultDto();
+            var action = _actionRepository.GetById(id);
+            if (action == null)
+            {
+                result.Message = "Action not found.";
+                return result;
+            }
+
+            var project = _projectRepository.GetById(projectId);
+            if (project == null)
+            {
+                result.Message = "Project not found.";
+                return result;
+            }
+
+            action.Project = project;
+
+            _actionRepository.Update(action);
+            
+            result.IsSaved = true;
+
+            return result;
+        }
     }
 }
