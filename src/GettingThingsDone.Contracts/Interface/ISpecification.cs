@@ -15,16 +15,16 @@ namespace GettingThingsDone.Contracts.Interface
         /// </summary>
         Expression<Func<T, bool>> Criteria { get; }
         /// <summary>
-        /// The list of entity properties of <see cref="T"/> that
+        /// Entity properties of <see cref="T"/> that
         /// should be included in the result. E.g.
         /// x => x.Project
         /// </summary>
-        List<Expression<Func<T, object>>> Includes { get; }
+        IEnumerable<Expression<Func<T, object>>> Includes { get; }
         /// <summary>
-        /// The list of entity properties of <see cref="T"/> that
+        /// Entity properties of <see cref="T"/> that
         /// should be included in the result represented as strings. E.g.
         /// "Project"
         /// </summary>
-        List<string> IncludesAsStrings { get; }
+        IEnumerable<string> IncludesAsStrings { get; }
     }
 }

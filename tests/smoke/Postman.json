@@ -239,10 +239,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Name\": \"Inbox\"\r\n}"
+							"raw": "{\r\n    \"Id\" : 1,\r\n    \"Name\": \"Inbox\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:55555/api/lists/1",
+							"raw": "http://localhost:55555/api/lists",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -250,8 +250,7 @@
 							"port": "55555",
 							"path": [
 								"api",
-								"lists",
-								"1"
+								"lists"
 							]
 						}
 					},

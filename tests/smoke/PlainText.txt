@@ -34,6 +34,7 @@ POST http://localhost:55555/api/lists
 
 PUT http://localhost:55555/api/lists/1
 {
+    "Id": 1,
     "Name": "Inbox"
 }
 

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GettingThingsDone.Contracts.Model;
-using GettingThingsDone.Infrastructure.Database;
+using GettingThingsDone.ApplicationCore.Helpers;
+using GettingThingsDone.Contracts.Dto;
+using GettingThingsDone.Contracts.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GettingThingsDone.WebApi.Controllers
 {
@@ -13,51 +12,52 @@ namespace GettingThingsDone.WebApi.Controllers
     {
         private static class Routes
         {
-            public const string GetList = nameof(GetList);
+            public const string GetListById = nameof(GetListById);
         }
 
-        private readonly GettingThingsDoneDbContext _dbContext;
+        private readonly IActionListService _actionListService;
 
-        public ActionListController(GettingThingsDoneDbContext dbContext)
+        public ActionListController(IActionListService actionListService)
         {
-            _dbContext = dbContext;
+            _actionListService = actionListService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ActionList>> GetAll()
+        public ActionResult<List<ActionListDto>> GetAll()
         {
-            return _dbContext.Lists;
+            return FromValueServiceResult(_actionListService.GetAll());
         }
 
-        [HttpGet("{id}", Name = Routes.GetList)]
-        public ActionResult<ActionList> GetById(int id)
+        [HttpGet("{id}", Name = Routes.GetListById)]
+        public ActionResult<ActionListDto> GetById(int id)
         {
-            var list = _dbContext.Lists.Find(id);
-            if (list == null)
-                return NotFound();
-            return list;
+            return FromValueServiceResult(_actionListService.GetList(id));
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] ActionList value)
+        public IActionResult Create([FromBody] ActionListDto value)
         {
-            _dbContext.Lists.Add(value);
-            _dbContext.SaveChanges();
+            if (!value.RepresentsNewEntity)
+                return BadRequest();
 
-            return CreatedAtRoute(Routes.GetList, new { id = value.Id }, value);
+            var result = _actionListService.CreateOrUpdate(value);
+
+            if (!result.IsOk())
+                return FromServiceResult(result);
+
+            return CreatedAtRoute(Routes.GetListById, new { id = result.Value.Id }, result.Value);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] ActionList value)
+        [HttpPut]
+        public IActionResult Update([FromBody] ActionListDto value)
         {
-            var list = _dbContext.Lists.Find(id);
-            if (list == null)
-                return NotFound();
+            if (value.RepresentsNewEntity)
+                return BadRequest();
 
-            list.Name = value.Name;
+            var result = _actionListService.CreateOrUpdate(value);
 
-            _dbContext.Lists.Update(list);
-            _dbContext.SaveChanges();
+            if (!result.IsOk())
+                return FromServiceResult(result);
 
             return NoContent();
         }
@@ -65,26 +65,18 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var list = _dbContext.Lists.Find(id);
-            if (list == null)
-            {
-                return NotFound();
-            }
+            var result = _actionListService.Delete(id);
 
-            _dbContext.Lists.Remove(list);
-            _dbContext.SaveChanges();
+            if (!result.IsOk())
+                return FromServiceResult(result);
 
             return NoContent();
         }
 
         [HttpGet("{id}/actions")]
-        public ActionResult<IEnumerable<Action>> GetListActions(int id)
+        public ActionResult<List<ActionDto>> GetListActions(int id)
         {
-            var list = _dbContext.Lists.Include(x => x.Actions).FirstOrDefault(l => l.Id == id);
-            if (list == null)
-                return NotFound();
-            var actionsToReturn = RemoveListAndProjectFromActions(list.Actions.ToList());
-            return new ActionResult<IEnumerable<Action>>(actionsToReturn);
+            return FromValueServiceResult(_actionListService.GetListActions(id));
         }
     }
 }
