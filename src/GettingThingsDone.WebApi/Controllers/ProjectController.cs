@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using GettingThingsDone.ApplicationCore.Helpers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System;
 
 namespace GettingThingsDone.WebApi.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ADMIN")]
     [Route("api/projects")]
     [ApiController]
     public class ProjectController : BaseController
@@ -34,6 +37,21 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpGet("{id}", Name = Routes.GetProjectById)]
         public async Task<ActionResult<ProjectDto>> GetById(int id)
         {
+            //get claims from Identity
+            //TODO: remove to helper class
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+            //TODO: claim types should be enumaration
+            var projectIdClaim = claims.FirstOrDefault(x => x.Type == "OwnerProjectId");
+            if (projectIdClaim != null)
+            {
+                int projectId = Convert.ToInt32(projectIdClaim.Value);
+                if (projectId != id)
+                {
+                    return Unauthorized();
+                }
+            }
+
             return FromValueServiceResult(await _projectService.GetProject(id));
         }
 

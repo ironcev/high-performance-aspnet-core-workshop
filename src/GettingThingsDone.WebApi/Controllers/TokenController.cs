@@ -38,6 +38,8 @@ namespace GettingThingsDone.WebApi.Controllers
                 {
                     new Claim(ClaimTypes.Name, request.Username),
                     new Claim(ClaimTypes.Role, "ADMIN"),
+                    //custom named claim
+                    new Claim("OwnerProjectId","1"),
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecurityKey"]));
