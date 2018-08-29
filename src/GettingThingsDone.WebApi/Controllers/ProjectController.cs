@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 using GettingThingsDone.ApplicationCore.Helpers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GettingThingsDone.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/projects")]
     [ApiController]
     public class ProjectController : BaseController
