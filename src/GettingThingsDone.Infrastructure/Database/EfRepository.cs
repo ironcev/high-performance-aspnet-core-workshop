@@ -28,9 +28,9 @@ namespace GettingThingsDone.Infrastructure.Database
             return GetAll(specification).FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(TrackingOption tracking = TrackingOption.WithTracking)
         {
-            return DbContext.Set<T>().AsEnumerable();
+            return DbContext.Set<T>().WithTrackingOption(tracking).AsEnumerable();
         }
 
         public IEnumerable<T> GetAll(ISpecification<T> specification)
@@ -48,6 +48,7 @@ namespace GettingThingsDone.Infrastructure.Database
             // Return the result of the query using the specification's criteria expression.
             return secondaryResult
                 .Where(specification.Criteria)
+                .WithTrackingOption(specification.Tracking)
                 .AsEnumerable();
         }
 

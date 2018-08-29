@@ -29,9 +29,9 @@ namespace GettingThingsDone.Infrastructure.Database
             return await GetQueryableForSpecification(specification).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll(TrackingOption tracking = TrackingOption.WithTracking)
         {
-            return await DbContext.Set<T>().ToListAsync();
+            return await DbContext.Set<T>().WithTrackingOption(tracking).ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetAll(ISpecification<T> specification)
@@ -52,7 +52,9 @@ namespace GettingThingsDone.Infrastructure.Database
                 .Aggregate(queryableResultWithIncludes, (current, include) => current.Include(include));
 
             // Return the result of the query using the specification's criteria expression.
-            return secondaryResult.Where(specification.Criteria);
+            return secondaryResult
+                .Where(specification.Criteria)
+                .WithTrackingOption(specification.Tracking);
         }
 
         public async Task<T> AddOrUpdate(T entity)

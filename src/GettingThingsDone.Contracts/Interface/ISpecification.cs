@@ -26,5 +26,9 @@ namespace GettingThingsDone.Contracts.Interface
         /// "Project"
         /// </summary>
         IEnumerable<string> IncludesAsStrings { get; }
+        /// <summary>
+        /// The tracking option.
+        /// </summary>
+        TrackingOption Tracking { get; }
     }
 }

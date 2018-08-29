@@ -29,7 +29,7 @@ namespace GettingThingsDone.Contracts.Interface
         /// Gets all entities or empty enumerable if the repository does not contain
         /// any entity.
         /// </summary>
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(TrackingOption tracking = TrackingOption.WithTracking);
         /// <summary>
         /// Gets all entities that satisfy the <paramref name="specification"/>
         /// or empty enumerable if such entities do not exist.
