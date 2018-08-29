@@ -48,7 +48,7 @@ namespace GettingThingsDone.ApplicationCore.Services
         public async Task<ServiceResult<List<ActionDto>>> GetAll()
         {
             return (await _actionRepository
-                .GetAll()) // Get the entities from the repository.
+                .GetAll(TrackingOption.WithoutTracking)) // Get the entities from the repository.
                 .Select(action => action.TranslateTo<ActionDto>()) // Translate them into DTOs.
                 .ToList()
                 .ToOkServiceResult(); // And return.
