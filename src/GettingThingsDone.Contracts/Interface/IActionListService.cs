@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GettingThingsDone.Contracts.Dto;
 
 namespace GettingThingsDone.Contracts.Interface
 {
     public interface IActionListService
     {
-        ServiceResult<ActionListDto> GetList(int id);
-        ServiceResult<List<ActionListDto>> GetAll();
-        ServiceResult<ActionListDto> CreateOrUpdate(ActionListDto actionListDto);
-        ServiceResult<List<ActionDto>> GetListActions(int id);
-        ServiceResult Delete(int id);
+        Task<ServiceResult<ActionListDto>> GetList(int id);
+        Task<ServiceResult<List<ActionListDto>>> GetAll();
+        Task<ServiceResult<ActionListDto>> CreateOrUpdate(ActionListDto actionListDto);
+        Task<ServiceResult<List<ActionDto>>> GetListActions(int id);
+        Task<ServiceResult> Delete(int id);
     }
 }
