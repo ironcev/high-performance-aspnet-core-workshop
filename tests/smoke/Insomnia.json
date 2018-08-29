@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2018-08-29T00:03:42.695Z",
+	"__export_date": "2018-08-29T00:21:29.249Z",
 	"__export_source": "insomnia.desktop.app:v6.0.2",
 	"resources": [
 		{
@@ -148,7 +148,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535216840234,
 			"method": "POST",
-			"modified": 1535500970120,
+			"modified": 1535502041038,
 			"name": "Create new Action",
 			"parameters": [],
 			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
@@ -258,7 +258,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535216840096.5,
 			"method": "PUT",
-			"modified": 1535500972874,
+			"modified": 1535502044054,
 			"name": "Assign existing Action to a Project",
 			"parameters": [],
 			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
@@ -423,7 +423,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576968,
 			"method": "GET",
-			"modified": 1535239345049,
+			"modified": 1535502023984,
 			"name": "Get all Projects",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -455,7 +455,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576918,
 			"method": "POST",
-			"modified": 1535497888486,
+			"modified": 1535501979539,
 			"name": "Create new Project",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -473,7 +473,7 @@
 			"authentication": {},
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n    \"Name\": \"Prepare High Performance ASP.NET advanced workshop\"\n}"
+				"text": "{\n    \"Id\": 1,\n    \"Name\": \"Prepare High Performance ASP.NET advanced workshop\"\n}"
 			},
 			"created": 1535227828830,
 			"description": "",
@@ -487,7 +487,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576868,
 			"method": "PUT",
-			"modified": 1535239441863,
+			"modified": 1535502071731,
 			"name": "Update existing Project",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -497,7 +497,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "http://localhost:55555/api/projects/1",
+			"url": "http://localhost:55555/api/projects",
 			"_type": "request"
 		},
 		{
@@ -519,7 +519,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576718,
 			"method": "DELETE",
-			"modified": 1535469193571,
+			"modified": 1535502058798,
 			"name": "Delete existing Project",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -542,7 +542,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576768,
 			"method": "GET",
-			"modified": 1535497818882,
+			"modified": 1535502048888,
 			"name": "Get all Actions in a Project",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",

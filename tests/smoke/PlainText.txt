@@ -32,7 +32,7 @@ POST http://localhost:55555/api/lists
     "Name": "In"
 }
 
-PUT http://localhost:55555/api/lists/1
+PUT http://localhost:55555/api/lists
 {
     "Id": 1,
     "Name": "Inbox"
@@ -53,8 +53,9 @@ POST http://localhost:55555/api/projects
     "Name": "Prepare High Performance ASP.NET workshop"
 }
 
-PUT http://localhost:55555/api/projects/1
+PUT http://localhost:55555/api/projects
 {
+    "Id": 1,
     "Name": "Prepare High Performance ASP.NET advanced workshop"
 }
 

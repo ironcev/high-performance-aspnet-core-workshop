@@ -377,10 +377,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Name\": \"Prepare High Performance ASP.NET advanced workshop\"\r\n}"
+							"raw": "{\r\n    \"Id\": 1,\r\n    \"Name\": \"Prepare High Performance ASP.NET advanced workshop\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:55555/api/projects/1",
+							"raw": "http://localhost:55555/api/projects",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -388,8 +388,7 @@
 							"port": "55555",
 							"path": [
 								"api",
-								"projects",
-								"1"
+								"projects"
 							]
 						}
 					},

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GettingThingsDone.Contracts.Model;
-using GettingThingsDone.Infrastructure.Database;
+using GettingThingsDone.ApplicationCore.Helpers;
+using GettingThingsDone.Contracts.Dto;
+using GettingThingsDone.Contracts.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GettingThingsDone.WebApi.Controllers
 {
@@ -13,51 +12,52 @@ namespace GettingThingsDone.WebApi.Controllers
     {
         private static class Routes
         {
-            public const string GetProject = nameof(GetProject);
+            public const string GetProjectById = nameof(GetProjectById);
         }
 
-        private readonly GettingThingsDoneDbContext _dbContext;
+        private readonly IProjectService _projectService;
 
-        public ProjectController(GettingThingsDoneDbContext dbContext)
+        public ProjectController(IProjectService projectService)
         {
-            _dbContext = dbContext;
+            _projectService = projectService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Project>> GetAll()
+        public ActionResult<List<ProjectDto>> GetAll()
         {
-            return _dbContext.Projects;
+            return FromValueServiceResult(_projectService.GetAll());
         }
 
-        [HttpGet("{id}", Name = Routes.GetProject)]
-        public ActionResult<Project> GetById(int id)
+        [HttpGet("{id}", Name = Routes.GetProjectById)]
+        public ActionResult<ProjectDto> GetById(int id)
         {
-            var project = _dbContext.Projects.Find(id);
-            if (project == null)
-                return NotFound();
-            return project;
+            return FromValueServiceResult(_projectService.GetProject(id));
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Project value)
+        public IActionResult Create([FromBody] ProjectDto value)
         {
-            _dbContext.Projects.Add(value);
-            _dbContext.SaveChanges();
+            if (!value.RepresentsNewEntity)
+                return BadRequest();
 
-            return CreatedAtRoute(Routes.GetProject, new { id = value.Id }, value);
+            var result = _projectService.CreateOrUpdate(value);
+
+            if (!result.IsOk())
+                return FromServiceResult(result);
+
+            return CreatedAtRoute(Routes.GetProjectById, new { id = result.Value.Id }, result.Value);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] Project value)
+        [HttpPut]
+        public IActionResult Update([FromBody] ProjectDto value)
         {
-            var project = _dbContext.Projects.Find(id);
-            if (project == null)
-                return NotFound();
+            if (value.RepresentsNewEntity)
+                return BadRequest();
 
-            project.Name = value.Name;
+            var result = _projectService.CreateOrUpdate(value);
 
-            _dbContext.Projects.Update(project);
-            _dbContext.SaveChanges();
+            if (!result.IsOk())
+                return FromServiceResult(result);
 
             return NoContent();
         }
@@ -65,26 +65,18 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var project = _dbContext.Projects.Find(id);
-            if (project == null)
-            {
-                return NotFound();
-            }
+            var result = _projectService.Delete(id);
 
-            _dbContext.Projects.Remove(project);
-            _dbContext.SaveChanges();
+            if (!result.IsOk())
+                return FromServiceResult(result);
 
             return NoContent();
         }
 
         [HttpGet("{id}/actions")]
-        public ActionResult<IEnumerable<Action>> GetProjectActions(int id)
+        public ActionResult<List<ActionDto>> GetProjectActions(int id)
         {
-            var project = _dbContext.Projects.Include(x => x.Actions).FirstOrDefault(l => l.Id == id);
-            if (project == null)
-                return NotFound();
-            var actionsToReturn = RemoveListAndProjectFromActions(project.Actions.ToList());
-            return new ActionResult<IEnumerable<Action>>(actionsToReturn);
+            return FromValueServiceResult(_projectService.GetProjectActions(id));
         }
     }
 }

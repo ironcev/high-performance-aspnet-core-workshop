@@ -28,6 +28,7 @@ namespace GettingThingsDone.WebApi
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IActionService, ActionService>();
             services.AddScoped<IActionListService, ActionListService>();
+            services.AddScoped<IProjectService, ProjectService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
