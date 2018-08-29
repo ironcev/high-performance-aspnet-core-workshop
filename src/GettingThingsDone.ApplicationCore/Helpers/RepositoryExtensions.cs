@@ -32,12 +32,14 @@ namespace GettingThingsDone.ApplicationCore.Helpers
             return await repository.GetAll(new Specification<T>(criteria));
         }
 
-        public static async Task<T> GetByIdAndInclude<T>(this IAsyncRepository<T> repository, int id, Expression<Func<T, object>> include)
+        public static async Task<T> GetByIdAndInclude<T>(this IAsyncRepository<T> repository, int id, Expression<Func<T, object>> include, TrackingOption tracking = TrackingOption.WithTracking)
             where T : Entity
         {
             return (await repository.GetAll(new Specification<T>(
                     t => t.Id == id,
-                    new[] { include }
+                    new[] { include },
+                    null,
+                    tracking
                 )))
                 .FirstOrDefault();
         }

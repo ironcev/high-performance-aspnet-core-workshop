@@ -33,7 +33,7 @@ namespace GettingThingsDone.ApplicationCore.Services
         public async Task<ServiceResult<List<ActionListDto>>> GetAll()
         {
             return (await _listRepository
-                .GetAll())
+                .GetAll(TrackingOption.WithoutTracking))
                 .Select(list => list.TranslateTo<ActionListDto>())
                 .ToList()
                 .ToOkServiceResult();
@@ -60,7 +60,7 @@ namespace GettingThingsDone.ApplicationCore.Services
 
         public async Task<ServiceResult<List<ActionDto>>> GetListActions(int id)
         {
-            var list = await _listRepository.GetByIdAndInclude(id, x => x.Actions);
+            var list = await _listRepository.GetByIdAndInclude(id, x => x.Actions, TrackingOption.WithoutTracking);
             if (list == null)
                 return EntityNotFound<List<ActionDto>>();
 
