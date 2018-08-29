@@ -38,10 +38,6 @@ namespace GettingThingsDone.WebApi.Controllers
                 {
                     new Claim(ClaimTypes.Name, request.Username),
                     new Claim(ClaimTypes.Role, "ADMIN"),
-                    new Claim("CompletedBasicTraining", ""),
-                    //new Claim(CustomClaimTypes.EmploymentCommenced,
-                    //           new DateTime(2017,12,1).ToString(),
-                    //            ClaimValueTypes.DateTime)
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecurityKey"]));
