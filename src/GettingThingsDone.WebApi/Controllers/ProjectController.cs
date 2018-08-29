@@ -83,6 +83,13 @@ namespace GettingThingsDone.WebApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// using authorization policy OlderOnly
+        /// implemented in OlderThenHandler
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Policy = "OlderOnly")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

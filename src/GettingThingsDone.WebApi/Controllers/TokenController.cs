@@ -23,7 +23,6 @@ namespace GettingThingsDone.WebApi.Controllers
         {
             _configuration = configuration;
         }
-        public object CustomClaimTypes { get; private set; }
 
         [AllowAnonymous]
         [HttpPost]
@@ -40,6 +39,12 @@ namespace GettingThingsDone.WebApi.Controllers
                     new Claim(ClaimTypes.Role, "ADMIN"),
                     //custom named claim
                     new Claim("OwnerProjectId","1"),
+                    //better custom type claim from list of strings
+                    new Claim(CustomClaimTypes.Editor, "Is editor"),
+                    //non string type claim
+                    new Claim(CustomClaimTypes.BirthDate,
+                                new DateTime(1967,6,14).ToString(),
+                                ClaimValueTypes.DateTime)
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecurityKey"]));
