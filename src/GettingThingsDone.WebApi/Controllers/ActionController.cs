@@ -4,6 +4,7 @@ using GettingThingsDone.ApplicationCore.Helpers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace GettingThingsDone.WebApi.Controllers
 {
@@ -26,6 +27,7 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ActionDto>>> GetAll()
         {
+            Log.Information("Get all Actions!");
             return FromValueServiceResult(await _actionService.GetAll());
         }
 
@@ -38,6 +40,8 @@ namespace GettingThingsDone.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ActionDto value)
         {
+            Log.Warning("Action create {@value}", value);
+
             if (!value.RepresentsNewEntity)
                 return BadRequest();
 
