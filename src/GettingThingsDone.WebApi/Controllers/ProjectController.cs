@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GettingThingsDone.ApplicationCore.Helpers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
@@ -23,24 +24,24 @@ namespace GettingThingsDone.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<ProjectDto>> GetAll()
+        public async Task<ActionResult<List<ProjectDto>>> GetAll()
         {
-            return FromValueServiceResult(_projectService.GetAll());
+            return FromValueServiceResult(await _projectService.GetAll());
         }
 
         [HttpGet("{id}", Name = Routes.GetProjectById)]
-        public ActionResult<ProjectDto> GetById(int id)
+        public async Task<ActionResult<ProjectDto>> GetById(int id)
         {
-            return FromValueServiceResult(_projectService.GetProject(id));
+            return FromValueServiceResult(await _projectService.GetProject(id));
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] ProjectDto value)
+        public async Task<IActionResult> Create([FromBody] ProjectDto value)
         {
             if (!value.RepresentsNewEntity)
                 return BadRequest();
 
-            var result = _projectService.CreateOrUpdate(value);
+            var result = await _projectService.CreateOrUpdate(value);
 
             if (!result.IsOk())
                 return FromServiceResult(result);
@@ -49,12 +50,12 @@ namespace GettingThingsDone.WebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] ProjectDto value)
+        public async Task<IActionResult> Update([FromBody] ProjectDto value)
         {
             if (value.RepresentsNewEntity)
                 return BadRequest();
 
-            var result = _projectService.CreateOrUpdate(value);
+            var result = await _projectService.CreateOrUpdate(value);
 
             if (!result.IsOk())
                 return FromServiceResult(result);
@@ -63,9 +64,9 @@ namespace GettingThingsDone.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = _projectService.Delete(id);
+            var result = await _projectService.Delete(id);
 
             if (!result.IsOk())
                 return FromServiceResult(result);
@@ -74,9 +75,9 @@ namespace GettingThingsDone.WebApi.Controllers
         }
 
         [HttpGet("{id}/actions")]
-        public ActionResult<List<ActionDto>> GetProjectActions(int id)
+        public async Task<ActionResult<List<ActionDto>>> GetProjectActions(int id)
         {
-            return FromValueServiceResult(_projectService.GetProjectActions(id));
+            return FromValueServiceResult(await _projectService.GetProjectActions(id));
         }
     }
 }

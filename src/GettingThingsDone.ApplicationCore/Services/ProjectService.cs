@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GettingThingsDone.ApplicationCore.Helpers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
@@ -10,16 +11,16 @@ namespace GettingThingsDone.ApplicationCore.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly IRepository<Project> _projectRepository;
+        private readonly IAsyncRepository<Project> _projectRepository;
 
-        public ProjectService(IRepository<Project> projectRepository)
+        public ProjectService(IAsyncRepository<Project> projectRepository)
         {
             _projectRepository = projectRepository;
         }
 
-        public ServiceResult<ProjectDto> GetProject(int id)
+        public async Task<ServiceResult<ProjectDto>> GetProject(int id)
         {
-            var project = _projectRepository.GetById(id);
+            var project = await _projectRepository.GetById(id);
 
             if (project == null)
                 return EntityNotFound<ProjectDto>();
@@ -29,20 +30,20 @@ namespace GettingThingsDone.ApplicationCore.Services
                 .ToOkServiceResult();
         }
 
-        public ServiceResult<List<ProjectDto>> GetAll()
+        public async Task<ServiceResult<List<ProjectDto>>> GetAll()
         {
-            return _projectRepository
-                .GetAll()
+            return (await _projectRepository
+                .GetAll())
                 .Select(list => list.TranslateTo<ProjectDto>())
                 .ToList()
                 .ToOkServiceResult();
         }
 
-        public ServiceResult<ProjectDto> CreateOrUpdate(ProjectDto projectDto)
+        public async Task<ServiceResult<ProjectDto>> CreateOrUpdate(ProjectDto projectDto)
         {
             Project project = projectDto.RepresentsNewEntity
                 ? projectDto.TranslateTo<Project>()
-                : _projectRepository.GetById(projectDto.Id).CopyPropertiesFrom(projectDto);
+                : (await _projectRepository.GetById(projectDto.Id)).CopyPropertiesFrom(projectDto);
 
             if (project == null)
                 return EntityNotFound(projectDto);
@@ -50,33 +51,33 @@ namespace GettingThingsDone.ApplicationCore.Services
             // TODO: Later on we will do the checks here.
             //       So far we assume everything always works fine.
 
-            project = _projectRepository.AddOrUpdate(project);
+            project = await _projectRepository.AddOrUpdate(project);
 
             projectDto.Id = project.Id;
 
             return Ok(projectDto);
         }
 
-        public ServiceResult<List<ActionDto>> GetProjectActions(int id)
+        public async Task<ServiceResult<List<ActionDto>>> GetProjectActions(int id)
         {
-            var list = _projectRepository.GetByIdAndInclude(id, x => x.Actions);
-            if (list == null)
+            var project = await _projectRepository.GetByIdAndInclude(id, x => x.Actions);
+            if (project == null)
                 return EntityNotFound<List<ActionDto>>();
 
-            return list.Actions
+            return project.Actions
                 .Select(action => action.TranslateTo<ActionDto>())
                 .ToList()
                 .ToOkServiceResult();
         }
 
-        public ServiceResult Delete(int id)
+        public async Task<ServiceResult> Delete(int id)
         {
-            var project = _projectRepository.GetById(id);
+            var project = await _projectRepository.GetById(id);
 
             if (project == null)
                 return EntityNotFound();
 
-            _projectRepository.Delete(project);
+            await _projectRepository.Delete(project);
 
             return Ok();
         }
