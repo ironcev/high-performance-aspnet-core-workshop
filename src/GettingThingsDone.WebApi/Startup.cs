@@ -26,6 +26,7 @@ namespace GettingThingsDone.WebApi
             services.AddDbContext<GettingThingsDoneDbContext>(options => options.UseInMemoryDatabase("GettingThingsDoneDatabase", inMemoryDatabaseRoot));
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfAsyncRepository<>));
             services.AddScoped<IActionService, ActionService>();
             services.AddScoped<IActionListService, ActionListService>();
             services.AddScoped<IProjectService, ProjectService>();
