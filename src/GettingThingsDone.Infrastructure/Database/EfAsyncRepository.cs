@@ -1,39 +1,45 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GettingThingsDone.Contracts.Interface;
 using GettingThingsDone.Contracts.Model;
 
 namespace GettingThingsDone.Infrastructure.Database
 {
     /// <summary>
-    /// Entity Framework based implementation of the <see cref="IRepository{T}"/>.
+    /// Entity Framework based implementation of the <see cref="IAsyncRepository{T}"/>.
     /// </summary>
-    public class EfRepository<T> : IRepository<T> where T : Entity
+    public class EfAsyncRepository<T> : IAsyncRepository<T> where T : Entity
     {
         protected GettingThingsDoneDbContext DbContext { get; }
 
-        public EfRepository(GettingThingsDoneDbContext dbContext)
+        public EfAsyncRepository(GettingThingsDoneDbContext dbContext)
         {
             DbContext = dbContext;
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return DbContext.Set<T>().Find(id);
+            return await DbContext.Set<T>().FindAsync(id);
         }
 
-        public T GetFirst(ISpecification<T> specification)
+        public async Task<T> GetFirst(ISpecification<T> specification)
         {
-            return GetAll(specification).FirstOrDefault();
+            return await GetQueryableForSpecification(specification).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return DbContext.Set<T>().AsEnumerable();
+            return await DbContext.Set<T>().ToListAsync();
         }
 
-        public IEnumerable<T> GetAll(ISpecification<T> specification)
+        public async Task<IEnumerable<T>> GetAll(ISpecification<T> specification)
+        {
+            return await GetQueryableForSpecification(specification).ToListAsync();
+        }
+
+        private IQueryable<T> GetQueryableForSpecification(ISpecification<T> specification)
         {
             // Fetch a queryable that includes all expression-based includes.
             var queryableResultWithIncludes = specification
@@ -46,12 +52,10 @@ namespace GettingThingsDone.Infrastructure.Database
                 .Aggregate(queryableResultWithIncludes, (current, include) => current.Include(include));
 
             // Return the result of the query using the specification's criteria expression.
-            return secondaryResult
-                .Where(specification.Criteria)
-                .AsEnumerable();
+            return secondaryResult.Where(specification.Criteria);
         }
 
-        public T AddOrUpdate(T entity)
+        public async Task<T> AddOrUpdate(T entity)
         {
             if (entity.Id == default(int))
             {
@@ -62,15 +66,15 @@ namespace GettingThingsDone.Infrastructure.Database
                 DbContext.Entry(entity).State = EntityState.Modified;
             }
 
-            DbContext.SaveChanges();
+            await DbContext.SaveChangesAsync();
 
             return entity;
         }
 
-        public void Delete(T entity)
+        public async Task Delete(T entity)
         {
             DbContext.Set<T>().Remove(entity);
-            DbContext.SaveChanges();
+            await DbContext.SaveChangesAsync();
         }
     }
 }
