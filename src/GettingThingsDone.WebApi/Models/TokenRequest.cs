@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GettingThingsDone.WebApi.Models
+﻿namespace GettingThingsDone.WebApi.Models
 {
     /// <summary>
-    /// Authentication request for getting token
+    /// Information needed for the authentication request
+    /// for getting the token.
     /// </summary>
     public class TokenRequest
     {

@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2018-08-29T00:21:29.249Z",
+	"__export_date": "2018-08-30T08:05:34.737Z",
 	"__export_source": "insomnia.desktop.app:v6.0.2",
 	"resources": [
 		{
@@ -77,6 +77,17 @@
 			"_type": "request_group"
 		},
 		{
+			"_id": "fld_a2c212badc6b4f78b04156052ccecdf9",
+			"created": 1535615640643,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1535615640643,
+			"modified": 1535615640643,
+			"name": "Authentication",
+			"parentId": "wrk_9cfba925c7dd488082f501ae049fc4a6",
+			"_type": "request_group"
+		},
+		{
 			"_id": "env_bc3b744d499e4fd7a5619722fb11085b",
 			"color": null,
 			"created": 1535236205168,
@@ -116,7 +127,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535216840284,
 			"method": "GET",
-			"modified": 1535497897664,
+			"modified": 1535615714815,
 			"name": "Get all Actions",
 			"parameters": [],
 			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
@@ -148,7 +159,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535216840234,
 			"method": "POST",
-			"modified": 1535502041038,
+			"modified": 1535608425071,
 			"name": "Create new Action",
 			"parameters": [],
 			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
@@ -180,7 +191,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535216840209,
 			"method": "PUT",
-			"modified": 1535497215217,
+			"modified": 1535509229212,
 			"name": "Update existing Action",
 			"parameters": [],
 			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
@@ -212,7 +223,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535216840046.5,
 			"method": "DELETE",
-			"modified": 1535497248732,
+			"modified": 1535506117351,
 			"name": "Delete existing Action",
 			"parameters": [],
 			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
@@ -235,7 +246,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535216840146.5,
 			"method": "PUT",
-			"modified": 1535500977048,
+			"modified": 1535509759114,
 			"name": "Move existing Action to a List",
 			"parameters": [],
 			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
@@ -258,7 +269,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535216840096.5,
 			"method": "PUT",
-			"modified": 1535502044054,
+			"modified": 1535608434932,
 			"name": "Assign existing Action to a Project",
 			"parameters": [],
 			"parentId": "fld_0851225d29904130adb40f22bd49c8db",
@@ -281,7 +292,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576968,
 			"method": "GET",
-			"modified": 1535500931499,
+			"modified": 1535615600513,
 			"name": "Get all Lists",
 			"parameters": [],
 			"parentId": "fld_f1a1cd8c83624efc812287ed6db06969",
@@ -313,7 +324,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576918,
 			"method": "POST",
-			"modified": 1535501001466,
+			"modified": 1535509701375,
 			"name": "Create new List",
 			"parameters": [],
 			"parentId": "fld_f1a1cd8c83624efc812287ed6db06969",
@@ -345,7 +356,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576868,
 			"method": "PUT",
-			"modified": 1535501004081,
+			"modified": 1535509705759,
 			"name": "Update existing List",
 			"parameters": [],
 			"parentId": "fld_f1a1cd8c83624efc812287ed6db06969",
@@ -377,7 +388,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576718,
 			"method": "DELETE",
-			"modified": 1535239317401,
+			"modified": 1535506776165,
 			"name": "Delete existing List",
 			"parameters": [],
 			"parentId": "fld_f1a1cd8c83624efc812287ed6db06969",
@@ -400,7 +411,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576768,
 			"method": "GET",
-			"modified": 1535500982779,
+			"modified": 1535509763772,
 			"name": "Get all Actions in a List",
 			"parameters": [],
 			"parentId": "fld_f1a1cd8c83624efc812287ed6db06969",
@@ -415,7 +426,12 @@
 		},
 		{
 			"_id": "req_f4863631ef504dff94406e8a2c3dc472",
-			"authentication": {},
+			"authentication": {
+				"disabled": true,
+				"prefix": "",
+				"token": "",
+				"type": "bearer"
+			},
 			"body": {},
 			"created": 1535227828810,
 			"description": "",
@@ -423,7 +439,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576968,
 			"method": "GET",
-			"modified": 1535502023984,
+			"modified": 1535616083903,
 			"name": "Get all Projects",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -455,7 +471,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576918,
 			"method": "POST",
-			"modified": 1535501979539,
+			"modified": 1535616067208,
 			"name": "Create new Project",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -487,7 +503,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576868,
 			"method": "PUT",
-			"modified": 1535502071731,
+			"modified": 1535509895740,
 			"name": "Update existing Project",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -502,7 +518,11 @@
 		},
 		{
 			"_id": "req_e60350b26c50478fb5230edde112b3be",
-			"authentication": {},
+			"authentication": {
+				"prefix": "",
+				"token": "",
+				"type": "bearer"
+			},
 			"body": {
 				"mimeType": "application/json",
 				"text": ""
@@ -519,7 +539,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576718,
 			"method": "DELETE",
-			"modified": 1535502058798,
+			"modified": 1535616077139,
 			"name": "Delete existing Project",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -542,7 +562,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1535221576768,
 			"method": "GET",
-			"modified": 1535502048888,
+			"modified": 1535509924049,
 			"name": "Get all Actions in a Project",
 			"parameters": [],
 			"parentId": "fld_4922fc6179244f0988e9099e956a421e",
@@ -553,6 +573,38 @@
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
 			"url": "http://localhost:55555/api/projects/1/actions",
+			"_type": "request"
+		},
+		{
+			"_id": "req_9d549b4315854de4ab7b37eae827cf3e",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"username\": \"user\",\n\t\"password\": \"user\"\n}"
+			},
+			"created": 1535615690162,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_8a6c15f1527f471db3177d717d789aa6",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535615690162,
+			"method": "POST",
+			"modified": 1535616314121,
+			"name": "Get JWT token",
+			"parameters": [],
+			"parentId": "fld_a2c212badc6b4f78b04156052ccecdf9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:55555/api/auth/token",
 			"_type": "request"
 		}
 	]

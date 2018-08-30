@@ -1,19 +1,18 @@
 ﻿using GettingThingsDone.ApplicationCore.Services;
 using GettingThingsDone.Contracts.Interface;
 using GettingThingsDone.Infrastructure.Database;
-using GettingThingsDone.WebApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using GettingThingsDone.WebApi.Security;
 
 namespace GettingThingsDone.WebApi
 {
@@ -37,7 +36,7 @@ namespace GettingThingsDone.WebApi
             services.AddScoped<IActionListService, ActionListService>();
             services.AddScoped<IProjectService, ProjectService>();
 
-            //add authentication JWT options settings
+            // Add authentication JWT options settings.
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -52,22 +51,19 @@ namespace GettingThingsDone.WebApi
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
                     };
                 });
-            //add custom authorization claim based policy
+
+            // Add custom authorization claim based policy.
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("OlderOnly",
+                options.AddPolicy(
+                    CustomPolicies.OnlyUsersOlderThan,
                     policy => policy
-                    .RequireClaim(CustomClaimTypes.Editor)
-                    .AddRequirements(new OlderThenRequirement(50)));
+                        .RequireClaim(CustomClaimTypes.DateOfBirth)
+                        .AddRequirements(new OlderThanRequirement(50)));
             });
-            //register OlderThen Handler
-            services.AddSingleton<IAuthorizationHandler, OlderThenHandler>();
-            //versioning
-            services.AddApiVersioning(v =>
-            {
-                v.AssumeDefaultVersionWhenUnspecified = true;
-                v.ApiVersionReader = new HeaderApiVersionReader("api-version");
-            });
+
+            // Register Older Than authorization handler.
+            services.AddSingleton<IAuthorizationHandler, OlderThanAuthorizationHandler>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -78,7 +74,9 @@ namespace GettingThingsDone.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            //add authentication - without iz for example [Authorize] want work
+
+            // Use authentication. Without it e.g. [Authorize] attribute
+            // will not work.
             app.UseAuthentication();
 
             app.UseMvc();
