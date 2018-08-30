@@ -6,7 +6,6 @@ using GettingThingsDone.Contracts.Interface;
 using GettingThingsDone.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using Microsoft.AspNetCore.Mvc.Versioning;
 
 
 namespace GettingThingsDone.WebApiV2.Controllers

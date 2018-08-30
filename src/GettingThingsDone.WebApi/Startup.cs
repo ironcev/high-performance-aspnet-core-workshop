@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GettingThingsDone.WebApi.Security;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace GettingThingsDone.WebApi
 {
@@ -64,6 +65,13 @@ namespace GettingThingsDone.WebApi
 
             // Register Older Than authorization handler.
             services.AddSingleton<IAuthorizationHandler, OlderThanAuthorizationHandler>();
+
+            //versioning
+            services.AddApiVersioning(v =>
+            {
+                v.AssumeDefaultVersionWhenUnspecified = true;
+                v.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
