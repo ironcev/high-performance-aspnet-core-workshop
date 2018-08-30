@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
@@ -61,6 +62,12 @@ namespace GettingThingsDone.WebApi
             });
             //register OlderThen Handler
             services.AddSingleton<IAuthorizationHandler, OlderThenHandler>();
+            //versioning
+            services.AddApiVersioning(v =>
+            {
+                v.AssumeDefaultVersionWhenUnspecified = true;
+                v.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
