@@ -1,3 +1,14 @@
+Authentication
+==============
+
+POST http://localhost:55555/api/auth/token
+{
+    "username": "user",
+    "password": "user"
+}
+
+
+
 Actions
 =======
 
