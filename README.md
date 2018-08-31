@@ -1,5 +1,16 @@
 # High Performance ASP.NET Core Workshop
 
+## Building
+
+```
+git clone https://github.com/ironcev/high-performance-aspnet-core-workshop.git
+cd src/GettingThingsDone.WebApi
+dotnet build
+dotnet watch run
+```
+
+## Summary
+
 This repository contains a sample Web API application used in the [High-Performance ASP.NET Core Workshop](https://github.com/ironcev/public-talks/tree/master/HighPerformanceAspDotNetCore).
 
 The Web API represents a simplified implementation of a "Getting Things Done (GTD)" system. To learn more about GTD, read the Erlend Hamberg's excellent article [GTD in 15 minutes – A Pragmatic Guide to Getting Things Done](https://hamberg.no/gtd/).
