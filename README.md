@@ -5,7 +5,8 @@
 ```
 git clone https://github.com/ironcev/high-performance-aspnet-core-workshop.git
 cd src/GettingThingsDone.WebApi
-dotnet run
+dotnet build
+dotnet watch run
 ```
 
 ## Summary
