@@ -18,3 +18,10 @@ The application does not provide a UI. To smoke test the API you can use any RES
 To the extent possible under law, Dobriša Adamec and Igor Rončević have waived all copyright and related or neighboring rights to this work.
 
 In case of (re)use, providing a link to this GitHub repository would be highly appreciated.
+
+# Testing
+
+```
+cd tests/GettingThingsDone.Tests
+dotnet watch test /p:CollectCoverage=true /p:Threshold=80 /p:ThresholdType=\"line,method\" /p:CoverletOutputFormat=lcov /p:CoverletOutput=lcov/lcov.info /p:CopyLocalLockFileAssemblies=true
+```

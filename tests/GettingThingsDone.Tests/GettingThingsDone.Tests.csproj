@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="autofixture" Version="4.5.0" />
+    <PackageReference Include="coverlet.msbuild" Version="2.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
     <PackageReference Include="moq" Version="4.9.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
