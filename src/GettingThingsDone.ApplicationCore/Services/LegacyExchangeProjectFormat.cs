@@ -1,4 +1,5 @@
-﻿using GettingThingsDone.Contracts.Dto;
+﻿using System;
+using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
 using static GettingThingsDone.Contracts.Interface.ServiceResult;
 
@@ -20,15 +21,15 @@ namespace GettingThingsDone.ApplicationCore.Services
  
         public static ServiceResult<ProjectDto> ToProjectDto(string legacyExchangeValue)
         {
-            var value = legacyExchangeValue.Trim();
+            var value = legacyExchangeValue.AsSpan().Trim();
             if (value.Length != TotalWidth)
                 return InvalidOperation<ProjectDto>("Invalid legacy exchange value.");
 
-            var title = value.Substring(TitleStart, TitleWidth).Trim();
+            var title = value.Slice(TitleStart, TitleWidth).Trim();
 
             return Ok(new ProjectDto
             {
-                Name = title
+                Name = new string(title)
             });
         }
     }
