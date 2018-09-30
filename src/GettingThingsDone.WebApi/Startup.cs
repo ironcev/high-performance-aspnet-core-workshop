@@ -29,7 +29,7 @@ namespace GettingThingsDone.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             var inMemoryDatabaseRoot = new InMemoryDatabaseRoot();
-            services.AddDbContext<GettingThingsDoneDbContext>(options => options.UseInMemoryDatabase("GettingThingsDoneDatabase", inMemoryDatabaseRoot));
+            services.AddDbContextPool<GettingThingsDoneDbContext>(options => options.UseInMemoryDatabase("GettingThingsDoneDatabase", inMemoryDatabaseRoot));
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfAsyncRepository<>));
