@@ -27,12 +27,12 @@ namespace GettingThingsDone.ApplicationCore.Services
 
         public static ServiceResult<ActionDto> ToActionDto(string legacyExchangeValue)
         {
-            var value = legacyExchangeValue.Trim();
+            var value = legacyExchangeValue.AsSpan().Trim();
             if (value.Length != TotalWidth)
                 return InvalidOperation<ActionDto>("Invalid legacy exchange value.");
 
-            var title = value.Substring(TitleStart, TitleWidth).Trim();
-            var dueDateAsText = value.Substring(DueDateStart, DueDateWidth);
+            var title = value.Slice(TitleStart, TitleWidth).Trim();
+            var dueDateAsText = value.Slice(DueDateStart, DueDateWidth);
 
             if (!DateTimeOffset.TryParseExact(
                     dueDateAsText,
@@ -44,7 +44,7 @@ namespace GettingThingsDone.ApplicationCore.Services
 
             return Ok(new ActionDto
             {
-                Title = title,
+                Title = new string(title),
                 DueDate = dueDate
             });
         }
