@@ -87,6 +87,15 @@ namespace GettingThingsDone.ApplicationCore.Services
             return Ok(actionDto);
         }
 
+        public Task<ServiceResult<ActionDto>> CreateFromLegacyExchangeFormat(string legacyExchangeValue)
+        {
+            var result = LegacyExchangeActionFormat.ToActionDto(legacyExchangeValue);
+
+            if (!result.IsOk()) return Task.FromResult(result);
+
+            return CreateOrUpdate(result.Value);
+        }
+
         public async Task<ServiceResult> Delete(int id)
         {
             var action = await _actionRepository.GetById(id);

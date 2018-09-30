@@ -58,6 +58,15 @@ namespace GettingThingsDone.ApplicationCore.Services
             return Ok(projectDto);
         }
 
+        public Task<ServiceResult<ProjectDto>> CreateFromLegacyExchangeFormat(string legacyExchangeValue)
+        {
+            var result = LegacyExchangeProjectFormat.ToProjectDto(legacyExchangeValue);
+
+            if (!result.IsOk()) return Task.FromResult(result);
+
+            return CreateOrUpdate(result.Value);
+        }
+
         public async Task<ServiceResult<List<ActionDto>>> GetProjectActions(int id)
         {
             var project = await _projectRepository.GetByIdAndInclude(id, x => x.Actions, TrackingOption.WithoutTracking);

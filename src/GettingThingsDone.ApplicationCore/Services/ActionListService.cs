@@ -58,6 +58,15 @@ namespace GettingThingsDone.ApplicationCore.Services
             return Ok(actionListDto);
         }
 
+        public Task<ServiceResult<ActionListDto>> CreateFromLegacyExchangeFormat(string legacyExchangeValue)
+        {
+            var result = LegacyExchangeActionListFormat.ToActionListDto(legacyExchangeValue);
+
+            if (!result.IsOk()) return Task.FromResult(result);
+
+            return CreateOrUpdate(result.Value);
+        }
+
         public async Task<ServiceResult<List<ActionDto>>> GetListActions(int id)
         {
             var list = await _listRepository.GetByIdAndInclude(id, x => x.Actions, TrackingOption.WithoutTracking);
