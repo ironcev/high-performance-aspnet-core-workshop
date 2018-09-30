@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace GettingThingsDone.Contracts.Interface
 {
     /// <summary>
-    /// A specification of a query over a <see cref="IRepository{T}"/>.
+    /// A specification of a query over a repository.
     /// </summary>
     public interface ISpecification<T>
     {

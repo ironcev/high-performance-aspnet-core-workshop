@@ -15,14 +15,14 @@ namespace GettingThingsDone.ApplicationCore.Services
     public class ActionService : IActionService
     {
         private readonly IAsyncRepository<Action> _actionRepository;
-        private readonly IRepository<ActionList> _listRepository;
-        private readonly IRepository<Project> _projectRepository;
+        private readonly IAsyncRepository<ActionList> _listRepository;
+        private readonly IAsyncRepository<Project> _projectRepository;
 
         // Inject repositories and/or all the other needed services.
         public ActionService(
             IAsyncRepository<Action> actionRepository,
-            IRepository<ActionList> listRepository,
-            IRepository<Project> projectRepository)
+            IAsyncRepository<ActionList> listRepository,
+            IAsyncRepository<Project> projectRepository)
         {
             _actionRepository = actionRepository;
             _listRepository = listRepository;
@@ -105,7 +105,7 @@ namespace GettingThingsDone.ApplicationCore.Services
             if (action == null)
                 return EntityNotFound("Action not found.");
 
-            var list = _listRepository.GetById(listId); // TODO: Turn to await once the ListRepository supports it.
+            var list = await _listRepository.GetById(listId);
             if (list == null)
                 return EntityNotFound("List not found.");
 
@@ -122,7 +122,7 @@ namespace GettingThingsDone.ApplicationCore.Services
             if (action == null)
                 return EntityNotFound("Action not found.");
 
-            var project = _projectRepository.GetById(projectId);// TODO: Turn to await once the ProjectRepository supports it.
+            var project = await _projectRepository.GetById(projectId);
             if (project == null)
                 return EntityNotFound("Project not found.");
 
