@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Globalization;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
@@ -55,8 +56,8 @@ namespace GettingThingsDone.ApplicationCore.Services
         }
 
         public static string ToLegacyFormat(this Action action)
-        {
-            var buffer = new char[TotalWidth];
+        {            
+            var buffer = ArrayPool<char>.Shared.Rent(TotalWidth);
 
             Array.Fill(buffer, ' ');
 
@@ -64,7 +65,11 @@ namespace GettingThingsDone.ApplicationCore.Services
 
             action.DueDate?.ToString(DueDateFormat).CopyTo(0, buffer, DueDateStart, DueDateWidth);
 
-            return new string(buffer);
+            var result = new string(buffer);
+
+            ArrayPool<char>.Shared.Return(buffer);
+
+            return result;
         }
     }
 }
