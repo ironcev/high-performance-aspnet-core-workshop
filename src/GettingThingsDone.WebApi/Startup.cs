@@ -65,12 +65,15 @@ namespace GettingThingsDone.WebApi
             // Register Older Than authorization handler.
             services.AddSingleton<IAuthorizationHandler, OlderThanAuthorizationHandler>();
 
-            //versioning
+            // Add versioning API.
             services.AddApiVersioning(v =>
             {
                 v.AssumeDefaultVersionWhenUnspecified = true;
                 v.ApiVersionReader = new HeaderApiVersionReader("api-version");
             });
+
+            // Add Response Caching service.
+            services.AddResponseCaching();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -85,6 +88,9 @@ namespace GettingThingsDone.WebApi
             // Use authentication. Without it e.g. [Authorize] attribute
             // will not work.
             app.UseAuthentication();
+
+            // Use Response Caching service.
+            app.UseResponseCaching();
 
             app.UseMvc();
         }

@@ -25,6 +25,7 @@ namespace GettingThingsDone.WebApi.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 20, VaryByQueryKeys = new string[]{ "refresh", "new"})]
         public async Task<ActionResult<List<ActionDto>>> GetAll()
         {
             Log.Information("Get all Actions!");
