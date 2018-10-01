@@ -3,6 +3,7 @@ using System.Globalization;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
 using static GettingThingsDone.Contracts.Interface.ServiceResult;
+using Action = GettingThingsDone.Contracts.Model.Action;
 
 namespace GettingThingsDone.ApplicationCore.Services
 {
@@ -13,7 +14,7 @@ namespace GettingThingsDone.ApplicationCore.Services
     /// Due Date:      10 characters in format yyyy.MM.dd (<see cref="DueDateWidth"/>)
     /// In addition, an exchange value can have an arbitrary number of leading and trailing whitespaces.
     /// </summary>
-    internal class LegacyExchangeActionFormat
+    internal static class LegacyExchangeActionFormat
     {
         private const int TitleWidth = 100;
         private const int DescriptionWidth = 1000;
@@ -32,21 +33,38 @@ namespace GettingThingsDone.ApplicationCore.Services
                 return InvalidOperation<ActionDto>("Invalid legacy exchange value.");
 
             var title = value.Slice(TitleStart, TitleWidth).Trim();
-            var dueDateAsText = value.Slice(DueDateStart, DueDateWidth);
+            var dueDateAsText = value.Slice(DueDateStart, DueDateWidth).Trim();
 
-            if (!DateTimeOffset.TryParseExact(
+            var dueDate = DateTimeOffset.MinValue;
+            if (dueDateAsText.Length > 0)
+            {
+                if (!DateTimeOffset.TryParseExact(
                     dueDateAsText,
                     DueDateFormat,
                     DateTimeFormatInfo.InvariantInfo,
                     DateTimeStyles.None,
-                    out var dueDate))
-                return InvalidOperation<ActionDto>("Invalid due date.");
+                    out dueDate))
+                        return InvalidOperation<ActionDto>("Invalid due date.");
+            }
 
             return Ok(new ActionDto
             {
                 Title = new string(title),
-                DueDate = dueDate
+                DueDate = dueDate == DateTimeOffset.MinValue ? (DateTimeOffset?)null : dueDate
             });
+        }
+
+        public static string ToLegacyFormat(this Action action)
+        {
+            var buffer = new char[TotalWidth];
+
+            Array.Fill(buffer, ' ');
+
+            action.Title?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, action.Title.Length));
+
+            action.DueDate?.ToString(DueDateFormat).CopyTo(0, buffer, DueDateStart, DueDateWidth);
+
+            return new string(buffer);
         }
     }
 }

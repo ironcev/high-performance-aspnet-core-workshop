@@ -1,6 +1,7 @@
 ﻿using System;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
+using GettingThingsDone.Contracts.Model;
 using static GettingThingsDone.Contracts.Interface.ServiceResult;
 
 namespace GettingThingsDone.ApplicationCore.Services
@@ -11,7 +12,7 @@ namespace GettingThingsDone.ApplicationCore.Services
     /// Description: 1000 characters (<see cref="DescriptionWidth"/>
     /// In addition, an exchange value can have an arbitrary number of leading and trailing whitespaces.
     /// </summary>
-    internal class LegacyExchangeActionListFormat
+    internal static class LegacyExchangeActionListFormat
     {
         private const int TitleWidth = 100;
         private const int DescriptionWidth = 1000;
@@ -31,6 +32,17 @@ namespace GettingThingsDone.ApplicationCore.Services
             {
                 Name = new string(title)
             });
+        }
+
+        public static string ToLegacyFormat(this ActionList actionList)
+        {
+            var buffer = new char[TotalWidth];
+
+            Array.Fill(buffer, ' ');
+
+            actionList.Name?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, actionList.Name.Length));
+
+            return new string(buffer);
         }
     }
 }
