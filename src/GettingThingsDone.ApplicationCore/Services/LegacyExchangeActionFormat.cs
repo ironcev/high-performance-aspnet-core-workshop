@@ -59,16 +59,22 @@ namespace GettingThingsDone.ApplicationCore.Services
         {            
             var buffer = ArrayPool<char>.Shared.Rent(TotalWidth);
 
-            Array.Fill(buffer, ' ');
+            string result;
+            try
+            {
+                Array.Fill(buffer, ' ');
 
-            action.Title?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, action.Title.Length));
+                action.Title?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, action.Title.Length));
 
-            action.DueDate?.ToString(DueDateFormat).CopyTo(0, buffer, DueDateStart, DueDateWidth);
+                action.DueDate?.ToString(DueDateFormat).CopyTo(0, buffer, DueDateStart, DueDateWidth);
 
-            var result = new string(buffer);
-
-            ArrayPool<char>.Shared.Return(buffer);
-
+                result = new string(buffer);
+            }
+            finally 
+            {
+                ArrayPool<char>.Shared.Return(buffer);
+            }
+            
             return result;
         }
     }

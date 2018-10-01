@@ -39,14 +39,20 @@ namespace GettingThingsDone.ApplicationCore.Services
         {
             var buffer = ArrayPool<char>.Shared.Rent(TotalWidth);
 
-            Array.Fill(buffer, ' ');
+            string result;
+            try
+            {
+                Array.Fill(buffer, ' ');
 
-            actionList.Name?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, actionList.Name.Length));
+                actionList.Name?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, actionList.Name.Length));
 
-            var result = new string(buffer);
-
-            ArrayPool<char>.Shared.Return(buffer);
-
+                result = new string(buffer);
+            }
+            finally
+            {
+                ArrayPool<char>.Shared.Return(buffer);
+            }
+            
             return result;
         }
     }
