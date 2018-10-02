@@ -105,20 +105,20 @@ namespace GettingThingsDone.WebApi
             app.UseResponseCaching();
             
             // Add and config Cache-Control - global settings.
-            app.Use(async (context, next) =>
-            {
-                // For GetTypedHeaders, add: using Microsoft.AspNetCore.Http;
-                context.Response.GetTypedHeaders().CacheControl =
-                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-                    {
-                        Public = true,
-                        MaxAge = TimeSpan.FromSeconds(100)
-                    };
-                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
-                    new string[] { "lang" };
+            //app.Use(async (context, next) =>
+            //{
+            //    // For GetTypedHeaders, add: using Microsoft.AspNetCore.Http;
+            //    context.Response.GetTypedHeaders().CacheControl =
+            //        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+            //        {
+            //            Public = true,
+            //            MaxAge = TimeSpan.FromSeconds(100)
+            //        };
+            //    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+            //        new string[] { "lang" };
 
-                await next();
-            });
+            //    await next();
+            //});
 
             app.UseMvc();
         }
