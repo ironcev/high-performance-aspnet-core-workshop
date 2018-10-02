@@ -16,7 +16,7 @@ namespace GettingThingsDone.ApplicationCore.Helpers
         private readonly IAsyncRepository<Action> _actionRepository;
         private readonly IMemoryCache _memoryCache;
 
-        public CacheHelper( IMemoryCache memoryCache)
+        public CacheHelper(IMemoryCache memoryCache)
         {
             _memoryCache = memoryCache;
         }
@@ -55,13 +55,32 @@ namespace GettingThingsDone.ApplicationCore.Helpers
                     _memoryCache.Set(cacheKey, actionsAll,
                         new MemoryCacheEntryOptions()
                         .SetSlidingExpiration(TimeSpan.FromSeconds(15)) // After last call.
-                                                                        //.SetAbsoluteExpiration(TimeSpan.FromSeconds(20)) // Absolute cache life duration.
-                                                                        //.SetPriority(CacheItemPriority.High) // If memory is low cache will be cleaned, with priority we can set in which order.
-                        );
+                        //.SetAbsoluteExpiration(TimeSpan.FromSeconds(20)) // Absolute cache life duration.
+                        //.SetPriority(CacheItemPriority.High) // If memory is low cache will be cleaned, with priority we can set in which order.
+                        .RegisterPostEvictionCallback(CacheActionAllRemovedCallback) // Register postback method on cache key changes.
+                    );
                 }
             }
 
             return actionsAll;
+        }
+
+        /// <summary>
+        /// Callback method for cache Key ActionAll events.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="reason"></param>
+        /// <param name="state"></param>
+        private static void CacheActionAllRemovedCallback(object key, object value,
+                   EvictionReason reason, object state)
+        {
+            // Do something clever on cache Key removed.
+            if (reason == EvictionReason.Capacity)
+            {
+                // Log memory issues for cache.
+            }
+
         }
 
         public void RemoveActions()
