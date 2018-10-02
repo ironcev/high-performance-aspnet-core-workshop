@@ -19,6 +19,8 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 namespace GettingThingsDone.WebApi
 {
@@ -100,6 +102,11 @@ namespace GettingThingsDone.WebApi
 
             // Turn on default GZIP compression.
             services.AddResponseCompression();
+            // Set GZIP options
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Optimal; // Max reduce more CPU work
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
