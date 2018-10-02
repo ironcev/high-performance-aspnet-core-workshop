@@ -93,10 +93,13 @@ namespace GettingThingsDone.WebApi
             services.AddMvc()
                 .AddJsonOptions(options =>
                 {
-                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; 
                     options.SerializerSettings.Formatting = Formatting.None;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Turn on default GZIP compression.
+            services.AddResponseCompression();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -112,7 +115,7 @@ namespace GettingThingsDone.WebApi
 
             // Use Response Caching service.
             app.UseResponseCaching();
-            
+
             // Add and config Cache-Control - global settings.
             //app.Use(async (context, next) =>
             //{
@@ -128,6 +131,9 @@ namespace GettingThingsDone.WebApi
 
             //    await next();
             //});
+
+            // Use default Gzip compression.
+            app.UseResponseCompression();
 
             app.UseMvc();
         }
