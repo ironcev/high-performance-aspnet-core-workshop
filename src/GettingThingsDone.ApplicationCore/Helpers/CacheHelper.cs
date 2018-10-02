@@ -15,6 +15,11 @@ namespace GettingThingsDone.ApplicationCore.Helpers
     {
         private readonly IAsyncRepository<Action> _actionRepository;
         private readonly IMemoryCache _memoryCache;
+
+        public CacheHelper( IMemoryCache memoryCache)
+        {
+            _memoryCache = memoryCache;
+        }
         public CacheHelper(IAsyncRepository<Action> actionRepository, IMemoryCache memoryCache)
         {
             _actionRepository = actionRepository;
@@ -57,6 +62,11 @@ namespace GettingThingsDone.ApplicationCore.Helpers
             }
 
             return actionsAll;
+        }
+
+        public void RemoveActions()
+        {
+            _memoryCache.Remove(CacheKeys.ActionAll);
         }
     }
 }

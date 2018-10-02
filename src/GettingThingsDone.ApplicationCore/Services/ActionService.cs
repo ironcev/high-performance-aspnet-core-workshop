@@ -89,6 +89,10 @@ namespace GettingThingsDone.ApplicationCore.Services
 
             actionDto.Id = action.Id;
 
+            // Remove ActionsAll from cache, next time getall call will fill the cache.
+            CacheHelper cacheHelper = new CacheHelper(_memoryCache);
+            cacheHelper.RemoveActions();
+
             return Ok(actionDto);
         }
 
