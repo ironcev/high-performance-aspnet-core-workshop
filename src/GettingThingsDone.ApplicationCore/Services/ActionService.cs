@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GettingThingsDone.ApplicationCore.Helpers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
 using GettingThingsDone.Contracts.Model;
+using Microsoft.Extensions.Caching.Memory;
 using static GettingThingsDone.Contracts.Interface.ServiceResult;
+using Action = GettingThingsDone.Contracts.Model.Action;
 
 namespace GettingThingsDone.ApplicationCore.Services
 {
@@ -17,16 +20,19 @@ namespace GettingThingsDone.ApplicationCore.Services
         private readonly IAsyncRepository<Action> _actionRepository;
         private readonly IAsyncRepository<ActionList> _listRepository;
         private readonly IAsyncRepository<Project> _projectRepository;
-
+        private readonly IMemoryCache _memoryCache;
         // Inject repositories and/or all the other needed services.
         public ActionService(
             IAsyncRepository<Action> actionRepository,
             IAsyncRepository<ActionList> listRepository,
-            IAsyncRepository<Project> projectRepository)
+            IAsyncRepository<Project> projectRepository,
+            IMemoryCache memoryCache
+            )
         {
             _actionRepository = actionRepository;
             _listRepository = listRepository;
             _projectRepository = projectRepository;
+            _memoryCache = memoryCache;
         }
 
         public async Task<ServiceResult<ActionDto>> GetAction(int id)
@@ -47,10 +53,9 @@ namespace GettingThingsDone.ApplicationCore.Services
 
         public async Task<ServiceResult<List<ActionDto>>> GetAll()
         {
-            return (await _actionRepository
-                .GetAll(TrackingOption.WithoutTracking)) // Get the entities from the repository.
-                .Select(action => action.TranslateTo<ActionDto>()) // Translate them into DTOs.
-                .ToList()
+            CacheHelper cacheHelper = new CacheHelper(_actionRepository, _memoryCache);
+           
+            return (await cacheHelper.GetActions())
                 .ToOkServiceResult(); // And return.
         }
 

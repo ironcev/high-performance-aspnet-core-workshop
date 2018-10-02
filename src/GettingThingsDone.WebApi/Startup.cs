@@ -84,6 +84,9 @@ namespace GettingThingsDone.WebApi
                 options.MaximumBodySize = 1024;
             });
 
+            // Add InMemory cache.
+            services.AddMemoryCache();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
