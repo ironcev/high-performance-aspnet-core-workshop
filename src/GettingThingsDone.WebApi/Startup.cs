@@ -14,6 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GettingThingsDone.WebApi.Security;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace GettingThingsDone.WebApi
 {
@@ -75,6 +77,13 @@ namespace GettingThingsDone.WebApi
             // Add Response Caching service.
             services.AddResponseCaching();
 
+            // Configure Response Caching middleware
+            services.AddResponseCaching(options =>
+            {
+                options.UseCaseSensitivePaths = true;
+                options.MaximumBodySize = 1024;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -91,6 +100,22 @@ namespace GettingThingsDone.WebApi
 
             // Use Response Caching service.
             app.UseResponseCaching();
+            
+            // Add and config Cache-Control - global settings.
+            app.Use(async (context, next) =>
+            {
+                // For GetTypedHeaders, add: using Microsoft.AspNetCore.Http;
+                context.Response.GetTypedHeaders().CacheControl =
+                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromSeconds(100)
+                    };
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+                    new string[] { "lang" };
+
+                await next();
+            });
 
             app.UseMvc();
         }
