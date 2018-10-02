@@ -16,6 +16,9 @@ using GettingThingsDone.WebApi.Security;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Http;
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace GettingThingsDone.WebApi
 {
@@ -87,7 +90,13 @@ namespace GettingThingsDone.WebApi
             // Add InMemory cache.
             services.AddMemoryCache();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.SerializerSettings.Formatting = Formatting.None;
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
