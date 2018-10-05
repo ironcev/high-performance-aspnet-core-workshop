@@ -89,4 +89,3 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
-/src/GettingThingsDone.WebApi/log20180829.txt
