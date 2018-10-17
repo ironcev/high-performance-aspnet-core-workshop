@@ -83,11 +83,11 @@ namespace GettingThingsDone.WebApi
             services.AddResponseCaching();
 
             // Configure Response Caching middleware
-            services.AddResponseCaching(options =>
-            {
-                options.UseCaseSensitivePaths = true;
-                options.MaximumBodySize = 1024;
-            });
+            //services.AddResponseCaching(options =>
+            //{
+            //    options.UseCaseSensitivePaths = true;
+            //    options.MaximumBodySize = 1024;
+            //});
 
             // Add InMemory cache.
             services.AddMemoryCache();
