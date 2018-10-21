@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/GettingThingsDone/bin/Debug/netcoreapp2.1/GettingThingsDone.dll",
+            "program": "${workspaceRoot}/GettingThingsDone.WebApi/bin/Debug/netcoreapp2.1/GettingThingsDone.WebApi.dll",
             "args": [],
-            "cwd": "${workspaceRoot}/GettingThingsDone",
+            "cwd": "${workspaceRoot}/GettingThingsDone.WebApi",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
