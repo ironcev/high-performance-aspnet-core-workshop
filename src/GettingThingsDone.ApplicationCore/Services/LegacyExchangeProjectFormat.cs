@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Buffers;
 using GettingThingsDone.Contracts.Dto;
 using GettingThingsDone.Contracts.Interface;
 using GettingThingsDone.Contracts.Model;
@@ -37,23 +36,14 @@ namespace GettingThingsDone.ApplicationCore.Services
 
         public static string ToLegacyFormat(this Project project)
         {
-            var buffer = ArrayPool<char>.Shared.Rent(TotalWidth);
-
-            string result;
-            try
+            return string.Create(TotalWidth, project, (span, state) =>
             {
-                Array.Fill(buffer, ' ');
+                span.Fill(' ');
 
-                project.Name?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, project.Name.Length));
+                var titleSpan = span.Slice(TitleStart, TitleWidth);
 
-                result = new string(buffer);
-            }
-            finally 
-            {
-                ArrayPool<char>.Shared.Return(buffer);
-            }
-
-            return result;
+                state.Name?.AsSpan(0, Math.Min(TitleWidth, state.Name.Length)).CopyTo(titleSpan);
+            });
         }
     }
 }
