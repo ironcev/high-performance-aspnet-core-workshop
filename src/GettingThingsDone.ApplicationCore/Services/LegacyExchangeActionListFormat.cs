@@ -37,23 +37,14 @@ namespace GettingThingsDone.ApplicationCore.Services
 
         public static string ToLegacyFormat(this ActionList actionList)
         {
-            var buffer = ArrayPool<char>.Shared.Rent(TotalWidth);
-
-            string result;
-            try
+            return string.Create(TotalWidth, actionList, (span, state) =>
             {
-                Array.Fill(buffer, ' ');
+                span.Fill(' ');
 
-                actionList.Name?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, actionList.Name.Length));
+                var titleSpan = span.Slice(TitleStart, TitleWidth);
 
-                result = new string(buffer);
-            }
-            finally
-            {
-                ArrayPool<char>.Shared.Return(buffer);
-            }
-            
-            return result;
+                state.Name?.AsSpan(0, Math.Min(TitleWidth, state.Name.Length)).CopyTo(titleSpan);
+            });
         }
     }
 }
