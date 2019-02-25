@@ -56,26 +56,18 @@ namespace GettingThingsDone.ApplicationCore.Services
         }
 
         public static string ToLegacyFormat(this Action action)
-        {            
-            var buffer = ArrayPool<char>.Shared.Rent(TotalWidth);
-
-            string result;
-            try
+        {
+            return string.Create(TotalWidth, action, (span, state) =>
             {
-                Array.Fill(buffer, ' ');
+                span.Fill(' ');
 
-                action.Title?.CopyTo(0, buffer, TitleStart, Math.Min(TitleWidth, action.Title.Length));
+                var titleSpan = span.Slice(TitleStart, TitleWidth);
+                var dueDateSpan = span.Slice(DueDateStart, DueDateWidth);
 
-                action.DueDate?.ToString(DueDateFormat).CopyTo(0, buffer, DueDateStart, DueDateWidth);
+                state.Title?.AsSpan(0, Math.Min(TitleWidth, state.Title.Length)).CopyTo(titleSpan);
 
-                result = new string(buffer);
-            }
-            finally 
-            {
-                ArrayPool<char>.Shared.Return(buffer);
-            }
-            
-            return result;
+                state.DueDate?.TryFormat(dueDateSpan, out _, DueDateFormat);
+            });
         }
     }
 }
